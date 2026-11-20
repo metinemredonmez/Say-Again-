@@ -21,3 +21,6 @@ npm-debug.*
 
 # local database data
 db/data/
+
+# TypeScript incremental build info
+*.tsbuildinfo

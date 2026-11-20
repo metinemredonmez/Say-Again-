@@ -1,4 +1,4 @@
--- learning-eng: hedef PostgreSQL semasi (taslak).
+-- Say Again: hedef PostgreSQL semasi (taslak).
 -- Henuz API'ye bagli degil. Asama 2'de secilen veritabani paketiyle goc dosyalarina donusturulur.
 -- Senaryolar veritabaninda degil, content/scenarios.json icinde durur; scenario_id o dosyadaki id'dir.
 
@@ -11,6 +11,8 @@ create table users (
   level         text check (level in ('A2', 'B1', 'B2', 'C1')),
   pack          text not null default 'professional' check (pack in ('professional', 'seller')),
   difficulty    text not null default 'easy' check (difficulty in ('easy', 'hard')),
+  -- Ogrenilen dil (ISO 639-1). MVP yalnizca 'en'; senaryolarin targetLanguage alaniyla eslesir.
+  target_language text not null default 'en' check (target_language ~ '^[a-z]{2}$'),
   created_at    timestamptz not null default now(),
   deleted_at    timestamptz
 );

@@ -1,7 +1,7 @@
 # Mimari
 
-Bu belge hedef tasarımı anlatır. Şu an `apps/api` ve `apps/mobile` resmî şablonların dokunulmamış
-halidir; aşağıdakilerin hiçbiri henüz kodlanmadı.
+Bu belge hedef tasarımı anlatır. API'de şimdilik yalnızca `GET /health`, `GET /scenarios` ve
+`GET /scenarios/:id` kodlandı; `apps/mobile` hâlâ Expo şablonudur.
 
 ## Bileşenler
 
@@ -9,6 +9,8 @@ halidir; aşağıdakilerin hiçbiri henüz kodlanmadı.
 | --- | --- | --- |
 | Mobil uygulama | Expo (React Native, TypeScript, Expo Router) | Tek kodla iOS ve Android; Expo Go ile ilk günden telefonda |
 | API | NestJS (ESM, Vitest) | AI çağrıları, kota ve anahtarlar sunucuda kalır |
+| AI katmanı | API içinde modül: `apps/api/src/ai` | Ayrı servis değil; gerekçe `docs/KARARLAR.md` |
+| Admin paneli | Next.js, `apps/admin` (Aşama 3) | Bildirimler, maliyet, elde tutma ve transfer sonuçları; admin girişi ilk günden |
 | Veritabanı | PostgreSQL | Şema: `db/schema.sql` |
 | Ses | Bas-konuş kayıt; dökümü, cevabı ve seslendirmeyi API yapar | Sağlayıcı değiştirmek uygulama güncellemesi gerektirmez |
 | Abonelik | Mağaza içi satın alma | Aşama 5 |
@@ -37,8 +39,8 @@ Ses dosyası dökümden sonra silinir; yalnızca metin saklanır.
 | Uç | Ne yapar |
 | --- | --- |
 | `GET /health` | Canlılık denetimi |
-| `GET /scenarios?pack=` | Senaryo listesi (`content/scenarios.json` içinden) |
-| `GET /scenarios/:id` | Tek senaryo |
+| `GET /scenarios?pack=` | Senaryo listesi (`content/scenarios.json` içinden). Kodlandı |
+| `GET /scenarios/:id` | Tek senaryo: açılış sorusu ve ipuçlarıyla. Kodlandı |
 | `POST /lessons` | Dersi başlatır; açılış sorusunu döner |
 | `POST /lessons/:id/turns` | Kullanıcının cevabını alır (ses ya da metin); döküm ve koçun cevabını döner |
 | `POST /lessons/:id/finish` | Değerlendiriciyi çalıştırır; tek düzeltmeyi döner |
@@ -77,8 +79,17 @@ Tabloların tamamı `db/schema.sql` içinde.
 | `subscriptions` | Mağaza aboneliği durumu |
 
 Senaryolar veritabanında değil, `content/scenarios.json` içinde durur; API açılışta okur ve doğrular.
+Dosya bozuksa (bilinmeyen alan, tekrar eden kimlik, olmayan paket, açılışla aynı transfer sorusu) API
+başlamaz. Her senaryo `targetLanguage` taşır (şimdilik yalnızca `en`).
+
+Senaryo uçları istemciye yalnızca izinli alanları döner. `transfer`, `coachRole` ve `followUp`
+hiçbir zaman gönderilmez: transfer sorusu üç gün sonra sorulana kadar görülmemeli, diğer ikisi koç
+istemine aittir.
 
 ## AI katmanı
+
+Yer: API'nin içinde `apps/api/src/ai` modülü. Ders akışı yalnızca aşağıdaki arayüzleri bilir;
+sağlayıcıyı değiştirmek ya da modülü ayrı bir servise taşımak ders koduna dokunmaz.
 
 İki ayrı görev, iki ayrı istem (`prompts/`):
 
@@ -118,6 +129,9 @@ Her ders için döküm dakikası, token ve karakter sayısı kaydedilmeli (kalit
 ## Güvenlik ve gizlilik
 
 - AI anahtarları yalnızca API'de (`apps/api/.env`); mobil uygulamada anahtar bulunmaz.
+- Kurulu temel: güvenlik başlıkları (`app.useSecurityHeaders()`), IP başına dakikada 300 istek
+  (`@nestjs/throttler`), CORS kapalı, `trust proxy` kapalı. Barındırma seçilince `trust proxy`
+  yalnızca o vekile açılır (NET-03); admin paneli için CORS tek bir origin listesiyle açılır.
 - Ses kaydı saklanmaz. Metin dökümleri kullanıcı silme isteğinde silinir.
 - Kullanıcı başına günlük ve aylık istek sınırı sunucuda uygulanır.
 - Kullanıcının mesajındaki "talimatlarını unut" türü girdiler koç isteminde reddedilir (kalite testi 8).

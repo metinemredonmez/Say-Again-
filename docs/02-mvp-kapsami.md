@@ -33,7 +33,8 @@ uçludur.
 - Ligler, rozetler, avatarlar, animasyonlu karakterler
 - Ses bazında telaffuz puanlaması
 - Sıfırdan başlayanlar için müfredat (A1); MVP A2–B2 arasına hitap eder
-- İngilizce dışı diller, sosyal özellikler, öğretmen pazaryeri
+- İngilizce dışı diller (içerik ve veri modeli hedef dili baştan taşır, diller sonra eklenir), sosyal
+  özellikler, öğretmen pazaryeri
 - Kesintisiz gerçek zamanlı sesli sohbet
 
 ## Mağaza sürümü için ek gereksinimler

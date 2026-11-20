@@ -26,7 +26,7 @@ otel tarihini değiştirme (`pro-daily-01`).
 Geliştirme tarafı:
 
 - [ ] İki uygulamayı çalıştır: `apps/api` (`npm run start:dev`) ve `apps/mobile` (`npx expo start`)
-- [ ] API: `GET /health` ve `GET /scenarios` (içerik `content/scenarios.json` içinden, açılışta doğrulanır)
+- [x] API: `GET /health` ve `GET /scenarios` (içerik `content/scenarios.json` içinden, açılışta doğrulanır)
 - [ ] API: ders akışı sahte AI ile (`POST /lessons`, `/turns`, `/finish`, `/resay`); birim ve e2e testleri
 - [ ] Mobil: Bugün ekranında senaryo listesi; Prova ekranı metinle uçtan uca çalışır
 - [ ] Mobil: bas-konuş ses kaydı ve API'ye yükleme
@@ -54,6 +54,8 @@ Kapı tutmazsa: tekrarı sadeleştir (yalnızca 3. gün).
 - [ ] Karşılama ekranı: seviye, paket, hedef
 - [ ] AI kalite testleri (`docs/05-ai-kalite-testleri.md`); cevap anahtarını bir İngilizce eğitmeni onaylar
 - [ ] "Bu düzeltme yanlış" bildirimi
+- [ ] Admin paneli (`apps/admin`, Next.js): admin girişi ve yetki (AUT, SES, AZ), bildirimler, ders
+      maliyeti, elde tutma ve transfer sonuçları
 - [ ] EAS Build; TestFlight ve Play kapalı test kurulumu
 - [ ] Gizlilik politikası ve kullanım şartları taslağı (`docs/06-yayin-ve-hukuk.md`)
 

@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "learning-eng",
-    "slug": "learning-eng",
+    "name": "Say Again",
+    "slug": "say-again",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "learningeng",
+    "scheme": "sayagain",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"

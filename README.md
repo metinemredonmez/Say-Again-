@@ -1,4 +1,4 @@
-# learning-eng
+# Say Again
 
 Türkçe konuşanlar için mobil İngilizce koçu: gerçek bir konuşmayı prova et, tek bir düzeltme al,
 yeniden söyle ve üç gün sonra aynı beceriyi yardımsız kullanabildiğini gör.
@@ -27,15 +27,14 @@ cp .env.example .env       # telefonda denerken API adresini bilgisayarının ye
 npx expo start             # i: iOS simülatörü, a: Android, ya da Expo Go ile QR kodu okut
 ```
 
-İki uygulama da şu an resmî şablonların dokunulmamış halidir: API "Hello World!" döner, mobil
-uygulama Expo'nun karşılama ekranını gösterir. Ürün kodu Aşama 1'de yazılacak
-(`docs/04-yol-haritasi.md`).
+API şu an `GET /health`, `GET /scenarios` ve `GET /scenarios/:id` uçlarını sunar. Mobil uygulama
+hâlâ Expo'nun karşılama ekranını gösterir. Sıradaki işler `docs/04-yol-haritasi.md` içinde.
 
 ## Klasörler
 
 | Klasör | İçerik |
 | --- | --- |
-| `apps/api` | NestJS API (şablon). Hedef: senaryolar, ders akışı, tekrar ve transfer kuyruğu |
+| `apps/api` | NestJS API: sağlık ve senaryo uçları hazır. Hedef: ders akışı, AI modülü (`src/ai`), tekrar ve transfer kuyruğu |
 | `apps/mobile` | Expo uygulaması (şablon). Hedef: Bugün, Prova, Düzeltme, Defter, Hesap ekranları |
 | `content` | Senaryolar ve hata kategorileri |
 | `prompts` | Koç ve değerlendirici istemleri, kodsuz prova için başlangıç istemi |
@@ -54,3 +53,5 @@ Bu klasörü Claude Code'da aç ve şunu yaz:
 ```bash
 npm run check    # API: lint, test, e2e, build
 ```
+
+GitHub Actions her push'ta ve pull request'te aynı denetimi çalıştırır (`.github/workflows/ci.yml`).

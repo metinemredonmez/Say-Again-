@@ -6,8 +6,8 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: learning
-      POSTGRES_PASSWORD: learning
-      POSTGRES_DB: learning_eng
+      POSTGRES_USER: sayagain
+      POSTGRES_PASSWORD: sayagain
+      POSTGRES_DB: say_again
     volumes:
       - ./db/data:/var/lib/postgresql/data

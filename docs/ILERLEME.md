@@ -4,6 +4,17 @@ Her çalışma oturumunun sonunda tarihli tek satır ekle: ne bitti, sırada ne 
 
 ## 2026-11-20
 
+- Ad **Say Again** oldu, kod GitHub'a gönderildi (https://github.com/metinemredonmez/Say-Again-,
+  herkese açık). API'de `GET /health` (Terminus) ve `GET /scenarios`, `GET /scenarios/:id` yazıldı:
+  içerik açılışta Zod ile doğrulanır, bozuksa API başlamaz; transfer sorusu istemciye gitmez.
+  Güvenlik başlıkları, IP başına hız sınırı, CORS kapalı. Senaryolara `targetLanguage: "en"`
+  eklendi. GitHub Actions CI (API: audit, lint, test, e2e, build). API'de 13 birim ve 8 e2e testi,
+  lint, tip denetimi ve build geçiyor. Kararlar `docs/KARARLAR.md` içinde (AI modülü API içinde,
+  admin paneli Aşama 3). Bilinen durum: mobil şablonda `npx tsc --noEmit` 3 hata, `npx expo lint`
+  1 hata veriyor (hepsi Expo şablon dosyalarında; ilk mobil görevde şablon ekranlarıyla gidecek);
+  `npx expo lint` ilk çalıştırmada `eslint.config.js` ve ESLint paketlerini ekledi. API'de 5 açık
+  yalnızca geliştirme aracı `@nestjs/mau` içinde, üretim bağımlılıklarında açık yok. Sırada: ders
+  akışı sahte AI ile (`POST /lessons`, `/turns`, `/finish`, `/resay`) ve `src/ai` arayüzleri.
 - Proje iskeleti kuruldu: `apps/mobile` (create-expo-app, Expo SDK 58) ve `apps/api` (nest new,
   NestJS 12) resmî şablonların dokunulmamış halidir; yalnızca adları değiştirildi. Uygulama kodu
   henüz yazılmadı.

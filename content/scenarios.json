@@ -8,6 +8,7 @@
     {
       "id": "pro-interview-01",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "interview",
       "mode": "speak",
       "titleTr": "Kendini tanıtma",
@@ -27,6 +28,7 @@
     {
       "id": "pro-interview-02",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "interview",
       "mode": "speak",
       "titleTr": "Bir projeyi anlatma",
@@ -46,6 +48,7 @@
     {
       "id": "pro-interview-03",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "interview",
       "mode": "speak",
       "titleTr": "Bir kararı gerekçelendirme",
@@ -65,6 +68,7 @@
     {
       "id": "pro-interview-04",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "interview",
       "mode": "speak",
       "titleTr": "Görüşmeciye soru sorma",
@@ -84,6 +88,7 @@
     {
       "id": "pro-meeting-01",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "meeting",
       "mode": "speak",
       "titleTr": "Toplantıda durum aktarma",
@@ -103,6 +108,7 @@
     {
       "id": "pro-meeting-02",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "meeting",
       "mode": "speak",
       "titleTr": "Gecikmeyi açıklama",
@@ -122,6 +128,7 @@
     {
       "id": "pro-meeting-03",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "meeting",
       "mode": "speak",
       "titleTr": "Fikre katılmama ve öneri sunma",
@@ -141,6 +148,7 @@
     {
       "id": "pro-meeting-04",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "meeting",
       "mode": "speak",
       "titleTr": "Netleştirme isteme",
@@ -160,6 +168,7 @@
     {
       "id": "pro-daily-01",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "daily",
       "mode": "speak",
       "titleTr": "Otel rezervasyonunun tarihini değiştirme",
@@ -179,6 +188,7 @@
     {
       "id": "pro-daily-02",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "daily",
       "mode": "speak",
       "titleTr": "Restoranda sipariş ve sorun bildirme",
@@ -198,6 +208,7 @@
     {
       "id": "pro-daily-03",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "daily",
       "mode": "speak",
       "titleTr": "Havalimanında pasaport kontrolü",
@@ -217,6 +228,7 @@
     {
       "id": "pro-daily-04",
       "pack": "professional",
+      "targetLanguage": "en",
       "area": "daily",
       "mode": "speak",
       "titleTr": "Tanışma ve sohbet",
@@ -236,6 +248,7 @@
     {
       "id": "seller-customer-01",
       "pack": "seller",
+      "targetLanguage": "en",
       "area": "customer",
       "mode": "write",
       "titleTr": "Geciken kargo mesajı",
@@ -255,6 +268,7 @@
     {
       "id": "seller-customer-02",
       "pack": "seller",
+      "targetLanguage": "en",
       "area": "customer",
       "mode": "write",
       "titleTr": "İade talebi",
@@ -274,6 +288,7 @@
     {
       "id": "seller-customer-03",
       "pack": "seller",
+      "targetLanguage": "en",
       "area": "customer",
       "mode": "write",
       "titleTr": "Özel sipariş",
@@ -293,6 +308,7 @@
     {
       "id": "seller-customer-04",
       "pack": "seller",
+      "targetLanguage": "en",
       "area": "customer",
       "mode": "write",
       "titleTr": "Olumsuz yoruma cevap",
@@ -312,6 +328,7 @@
     {
       "id": "seller-supplier-01",
       "pack": "seller",
+      "targetLanguage": "en",
       "area": "supplier",
       "mode": "speak",
       "titleTr": "Baskı atölyesiyle süre pazarlığı",
@@ -331,6 +348,7 @@
     {
       "id": "seller-supplier-02",
       "pack": "seller",
+      "targetLanguage": "en",
       "area": "supplier",
       "mode": "speak",
       "titleTr": "Kargo firmasına hasar talebi",
@@ -350,6 +368,7 @@
     {
       "id": "seller-product-01",
       "pack": "seller",
+      "targetLanguage": "en",
       "area": "product",
       "mode": "speak",
       "titleTr": "Ürününü anlatma",
@@ -369,6 +388,7 @@
     {
       "id": "seller-product-02",
       "pack": "seller",
+      "targetLanguage": "en",
       "area": "product",
       "mode": "speak",
       "titleTr": "Toptan alıcıyla pazarlık",

@@ -1,4 +1,4 @@
-# learning-eng
+# Say Again
 
 Türkçe konuşanlar için mobil İngilizce koçu. Kullanıcı gerçek hayatta yapacağı bir konuşmayı prova
 eder, tek bir düzeltme alır, aynı fikri yeniden söyler ve üç gün sonra aynı beceriyi farklı bir soruda
@@ -88,7 +88,9 @@ Expo eklentisi için Claude Code'da `/plugin` ile `expo@claude-plugins-official`
 
 ## Şu anki durum
 
-Yalnızca iskelet kurulu. `apps/api` ve `apps/mobile` resmî şablonların dokunulmamış halidir; ürün
-kodu henüz yazılmadı. İçerik (`content/`), istemler (`prompts/`), hedef veritabanı şeması (`db/`) ve
-plan (`docs/`) hazır. Sıradaki iş Aşama 1: kendi telefonunda sesli tek ders. Görev listesi
+Uygulamanın adı **Say Again**; repo https://github.com/metinemredonmez/Say-Again- (CI: GitHub
+Actions, yalnızca API). API'de `GET /health` ve `GET /scenarios` hazır; güvenlik temeli (başlıklar,
+hız sınırı, açılışta içerik doğrulaması) kurulu. `apps/mobile` hâlâ Expo şablonudur. AI katmanı
+ayrı servis değil, API içinde `apps/api/src/ai` modülü olacak; admin paneli Aşama 3'te Next.js ile
+gelecek (`docs/KARARLAR.md`). Sıradaki iş Aşama 1'in kalanı: ders akışı sahte AI ile. Görev listesi
 `docs/04-yol-haritasi.md` içinde.

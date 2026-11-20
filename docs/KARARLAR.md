@@ -5,6 +5,26 @@ seçenek.
 
 ## 2026-11-20
 
+- **Ad: Say Again.** Repo: https://github.com/metinemredonmez/Say-Again- (şu an herkese açık). Neden:
+  uygulamanın ana kuralını anlatıyor (düzeltmeyi al, aynı fikri yeniden söyle), yeni başlayan biri
+  iki kelimeyi de bilir ve ad tek bir dile bağlı değil. Vazgeçilen: Prova, Out Loud, Warm Up.
+  Klasör adı `learning-eng` olarak kaldı.
+- **AI katmanı API'nin içinde bir modül (`apps/api/src/ai`), ayrı servis değil.** Neden: bir turda
+  döküm, koç ve seslendirme sırayla çalışır, ayrı servis her adıma ağ gecikmesi ekler; tek kişilik
+  bakımda tek servis yeter; servisler arası kimlik doğrulama gerekmez. Dört sağlayıcı arayüzü
+  modülün sınırıdır, gerekirse modül tek parça olarak ayrı servise taşınır. Ayırma koşulu: kendi
+  modelini çalıştırmak (GPU), Python kütüphanesi gereksinimi ya da AI yükünü ayrı ölçekleme.
+  Vazgeçilen: ayrı NestJS ya da Python (FastAPI) servisi.
+- **Admin paneli pilottan önce (Aşama 3), Next.js ile.** İçerik: "bu düzeltme yanlış" bildirimleri,
+  ders maliyeti, elde tutma ve transfer sonuçları. Admin girişi, oturum ve yetki ilk günden
+  red-team kataloğuna göre (AUT, SES, AZ). Vazgeçilen: iskeleti şimdi kurmak.
+- **Diller: önce İngilizce; içerik ve veri modeli hedef dili baştan taşır.** Her senaryoda
+  `targetLanguage` (ISO 639-1), `users.target_language`. Başka diller MVP sonrası. Vazgeçilen:
+  İngilizce ve Türkçeyi birlikte yayınlamak.
+- **API güvenlik temeli ilk uçlarla birlikte kuruldu.** Güvenlik başlıkları (`useSecurityHeaders`),
+  IP başına hız sınırı (RES-01), `trust proxy` kapalı (NET-03), CORS kapalı, içerik açılışta
+  doğrulanır ve bozuksa API başlamaz (EXC-01), istemciye yalnızca izinli alanlar gider (API-02).
+
 - **Platform: mobil (Expo) + NestJS API + PostgreSQL.** Neden: ürünün asıl kullanımı her gün telefonda
   sesli prova; bildirimler, mağaza dağıtımı ve mağazanın vergi tahsilatı bunu destekliyor. Vazgeçilen:
   web önce (Next.js). Bedeli: dağıtım ve fiyat deneyi daha yavaş.
