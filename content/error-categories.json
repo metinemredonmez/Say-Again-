@@ -1,0 +1,15 @@
+{
+  "version": 1,
+  "note": "Turkce konusanlarin Ingilizcede sik yaptigi hata turleri. Degerlendirici bir duzeltmeyi bu kategorilerden biriyle etiketler. Liste genel dil bilgisine dayanir; pilot verisindeki gercek hata sikligina gore guncellenmeli.",
+  "categories": [
+    { "id": "article", "labelTr": "Artikel (a, an, the)", "tipTr": "Türkçede artikel yok; ilk kez söz edilen tekil sayılabilir isimde a/an, bilinen şeyde the gerekir." },
+    { "id": "preposition", "labelTr": "Edat (in, on, at, for, to)", "tipTr": "Edatlar birebir çevrilmez; zaman ve yer kalıplarını ezberle: on Monday, at 5 pm, in June." },
+    { "id": "word-order", "labelTr": "Cümle sırası", "tipTr": "İngilizcede sıra özne, fiil, nesne. Soru cümlesinde yardımcı fiil özneden önce gelir." },
+    { "id": "tense", "labelTr": "Zaman seçimi", "tipTr": "Bitmiş ve zamanı belli olay past simple; etkisi süren ya da süresi verilen durum present perfect." },
+    { "id": "plural-countable", "labelTr": "Çoğul ve sayılabilirlik", "tipTr": "Sayıdan sonra çoğul eki gelir (two orders). Information, advice gibi isimler çoğul olmaz." },
+    { "id": "agreement", "labelTr": "Özne ve fiil uyumu", "tipTr": "He, she, it ile geniş zamanda fiile -s eklenir (she works)." },
+    { "id": "word-choice", "labelTr": "Kelime seçimi", "tipTr": "Doğrudan çeviri yerine yerleşik ifadeyi kullan (make a decision, take a photo)." },
+    { "id": "politeness", "labelTr": "Kibarlık ve ton", "tipTr": "İstekte Could you, Would it be possible, I'd like to kalıpları emir kipinden daha uygundur." },
+    { "id": "other", "labelTr": "Diğer", "tipTr": "Yukarıdakilere uymayan düzeltmeler." }
+  ]
+}

@@ -1,0 +1,389 @@
+{
+  "version": 1,
+  "packs": [
+    { "id": "professional", "titleTr": "Profesyonel", "descriptionTr": "İş görüşmesi, teknik toplantı ve günlük hayat" },
+    { "id": "seller", "titleTr": "Satıcı", "descriptionTr": "ABD'ye satış yapan e-ticaret satıcıları için müşteri, tedarikçi ve ürün konuşmaları" }
+  ],
+  "scenarios": [
+    {
+      "id": "pro-interview-01",
+      "pack": "professional",
+      "area": "interview",
+      "mode": "speak",
+      "titleTr": "Kendini tanıtma",
+      "situationTr": "Bir yazılım şirketiyle ilk mülakat. Görüşmeci seni tanımak istiyor.",
+      "coachRole": "You are a hiring manager running a first-round interview. Be friendly and concise.",
+      "opening": "Thanks for joining. To start, could you tell me a little about yourself?",
+      "skillTr": "Şu anki işini ve deneyimini anlatma (present simple ve present perfect)",
+      "skillEn": "Describe your current role and experience (present simple vs. present perfect)",
+      "hints": ["I'm a ... at ...", "I've been working as ... for ... years.", "Before that, I ..."],
+      "followUp": "What do you enjoy most about your current role?",
+      "transfer": {
+        "situationTr": "Bir konferansta kahve molasında yeni biriyle tanışıyorsun.",
+        "question": "Nice to meet you! So, what do you do?",
+        "successTr": "Ne iş yaptığını ve ne kadar süredir yaptığını söyle."
+      }
+    },
+    {
+      "id": "pro-interview-02",
+      "pack": "professional",
+      "area": "interview",
+      "mode": "speak",
+      "titleTr": "Bir projeyi anlatma",
+      "situationTr": "Mülakatın ikinci sorusu: yakın zamanda yaptığın bir işi anlatman isteniyor.",
+      "coachRole": "You are a hiring manager. Ask about past work and listen for a clear story.",
+      "opening": "Tell me about a project you worked on recently.",
+      "skillTr": "Geçmişte olanları sırayla anlatma (past simple; first, then, in the end)",
+      "skillEn": "Tell a past story in order (past simple; first, then, in the end)",
+      "hints": ["The goal was to ...", "First, we ... Then, we ...", "In the end, ..."],
+      "followUp": "What was your own role in that project?",
+      "transfer": {
+        "situationTr": "Yeni ekip arkadaşın geçen yıl neler yaptığını soruyor.",
+        "question": "What was the hardest problem you solved last year?",
+        "successTr": "Sorunu, ne yaptığını ve sonucu geçmiş zamanda anlat."
+      }
+    },
+    {
+      "id": "pro-interview-03",
+      "pack": "professional",
+      "area": "interview",
+      "mode": "speak",
+      "titleTr": "Bir kararı gerekçelendirme",
+      "situationTr": "Görüşmeci teknik kararlarını nasıl verdiğini anlamak istiyor.",
+      "coachRole": "You are a senior engineer interviewing a candidate. Be curious about the reasons behind decisions.",
+      "opening": "Tell me about a technical decision you made recently.",
+      "skillTr": "Geçmişteki bir kararın nedenini açıklama (because, so, instead of)",
+      "skillEn": "Explain the reasons for a past decision (because, so, instead of)",
+      "hints": ["We decided to ... because ...", "Instead of ..., we ...", "The main reason was ..."],
+      "followUp": "What would you do differently next time?",
+      "transfer": {
+        "situationTr": "Yöneticin bir sürümün neden ertelendiğini soruyor.",
+        "question": "Why did you postpone the release?",
+        "successTr": "Kararı ve nedenini geçmiş zamanda açıkla."
+      }
+    },
+    {
+      "id": "pro-interview-04",
+      "pack": "professional",
+      "area": "interview",
+      "mode": "speak",
+      "titleTr": "Görüşmeciye soru sorma",
+      "situationTr": "Mülakatın sonu. Görüşmeci sorularını bekliyor.",
+      "coachRole": "You are a hiring manager at the end of an interview. Answer briefly and invite more questions.",
+      "opening": "That's everything from my side. What would you like to know about the team or the role?",
+      "skillTr": "Kibar ve doğru sıralı soru kurma (What does ... look like? Could you tell me ...?)",
+      "skillEn": "Form polite questions with correct word order",
+      "hints": ["Could you tell me more about ...?", "What does a typical day look like?", "How does the team ...?"],
+      "followUp": "Good question. Is there anything else you'd like to ask?",
+      "transfer": {
+        "situationTr": "Yeni bir müşteriyle ilk görüşme. İhtiyaçlarını öğrenmen gerekiyor.",
+        "question": "We're thinking about working with you. Ask me anything you need to know about our project.",
+        "successTr": "En az iki açık ve doğru kurulmuş soru sor."
+      }
+    },
+    {
+      "id": "pro-meeting-01",
+      "pack": "professional",
+      "area": "meeting",
+      "mode": "speak",
+      "titleTr": "Toplantıda durum aktarma",
+      "situationTr": "Günlük ekip toplantısı. Sıra sende.",
+      "coachRole": "You are a team lead running a daily stand-up meeting. Keep it short.",
+      "opening": "Good morning! What did you work on since yesterday, and is anything blocking you?",
+      "skillTr": "İlerlemeyi ve engeli aktarma (I finished..., I'm working on..., I'm blocked by...)",
+      "skillEn": "Report progress and blockers",
+      "hints": ["Yesterday I finished ...", "Today I'm working on ...", "I'm blocked by ..."],
+      "followUp": "When do you expect to finish that?",
+      "transfer": {
+        "situationTr": "Bir müşteri siparişinin durumunu telefonda soruyor.",
+        "question": "Hi, I'm calling about my order. Where are we with it?",
+        "successTr": "Neyin bittiğini, neyin sürdüğünü ve ne zaman biteceğini söyle."
+      }
+    },
+    {
+      "id": "pro-meeting-02",
+      "pack": "professional",
+      "area": "meeting",
+      "mode": "speak",
+      "titleTr": "Gecikmeyi açıklama",
+      "situationTr": "Sürüm cuma günü çıkacaktı ama çıkmadı. Proje yöneticisi nedenini soruyor.",
+      "coachRole": "You are a project manager. You are calm but you need a clear reason and a new date.",
+      "opening": "The release was planned for Friday, but it's not out yet. What happened?",
+      "skillTr": "Gecikmenin nedenini ve yeni tarihi söyleme (was delayed because..., we expect to...)",
+      "skillEn": "Explain a delay and give a new date",
+      "hints": ["It was delayed because ...", "We found ... during testing.", "We expect to release it by ..."],
+      "followUp": "What do you need from us to hit the new date?",
+      "transfer": {
+        "situationTr": "Bir müşteri siparişinin neden geç kaldığını soruyor.",
+        "question": "My order was supposed to arrive last week. Why is it late?",
+        "successTr": "Gecikmenin nedenini ve yeni tarihi söyle."
+      }
+    },
+    {
+      "id": "pro-meeting-03",
+      "pack": "professional",
+      "area": "meeting",
+      "mode": "speak",
+      "titleTr": "Fikre katılmama ve öneri sunma",
+      "situationTr": "Bir ekip arkadaşın riskli bulduğun bir öneri yapıyor.",
+      "coachRole": "You are an enthusiastic colleague who wants a big rewrite. You are open to good arguments.",
+      "opening": "I think we should rewrite the whole module from scratch. What do you think?",
+      "skillTr": "Kibarca karşı çıkma ve alternatif önerme (I see your point, but...; What if we...?)",
+      "skillEn": "Disagree politely and suggest an alternative",
+      "hints": ["I see your point, but ...", "I'm worried that ...", "What if we ... instead?"],
+      "followUp": "How long would your approach take?",
+      "transfer": {
+        "situationTr": "Tedarikçin peşin ödeme istiyor. Sen katılmıyorsun.",
+        "question": "We'd like 50% of the payment upfront for this order. Is that okay with you?",
+        "successTr": "Kibarca karşı çık ve başka bir ödeme şekli öner."
+      }
+    },
+    {
+      "id": "pro-meeting-04",
+      "pack": "professional",
+      "area": "meeting",
+      "mode": "speak",
+      "titleTr": "Netleştirme isteme",
+      "situationTr": "Yöneticin belirsiz bir iş veriyor. Ne istediğini anlaman gerekiyor.",
+      "coachRole": "You are a busy manager who speaks quickly and vaguely. Answer clarifying questions briefly.",
+      "opening": "We need the report as soon as possible, with the usual breakdown. Can you handle it?",
+      "skillTr": "Belirsiz isteği netleştirme (Just to confirm...; What exactly do you mean by...?)",
+      "skillEn": "Ask for clarification and confirm details",
+      "hints": ["Just to confirm, you need ... by ...?", "What exactly do you mean by ...?", "Could you give me an example?"],
+      "followUp": "Does Thursday work for you?",
+      "transfer": {
+        "situationTr": "Kargo firması telefonda belirsiz bir talimat veriyor.",
+        "question": "Just send it to the other warehouse, the one near the port.",
+        "successTr": "Hangi depo olduğunu sor ve anladığını teyit et."
+      }
+    },
+    {
+      "id": "pro-daily-01",
+      "pack": "professional",
+      "area": "daily",
+      "mode": "speak",
+      "titleTr": "Otel rezervasyonunun tarihini değiştirme",
+      "situationTr": "Otelin resepsiyonunu arıyorsun. Rezervasyonunu iki gün ileri almak istiyorsun.",
+      "coachRole": "You are a hotel receptionist. Be polite and efficient.",
+      "opening": "Good afternoon, front desk. How can I help you?",
+      "skillTr": "Kibar rica ve tarih söyleme (I'd like to..., Would it be possible to...?)",
+      "skillEn": "Make a polite request and state dates",
+      "hints": ["I have a reservation under the name ...", "I'd like to change the dates to ...", "Would it be possible to ...?"],
+      "followUp": "Let me check. The new dates are available, but the rate is a little higher. Is that all right?",
+      "transfer": {
+        "situationTr": "Tren biletinin tarihini değiştirmen gerekiyor.",
+        "question": "Ticket office, good morning. What can I do for you?",
+        "successTr": "Tarihi değiştirmeyi iste ve fiyat farkını sor."
+      }
+    },
+    {
+      "id": "pro-daily-02",
+      "pack": "professional",
+      "area": "daily",
+      "mode": "speak",
+      "titleTr": "Restoranda sipariş ve sorun bildirme",
+      "situationTr": "Bir restoranda sipariş veriyorsun. Gelen yemek istediğin gibi değil.",
+      "coachRole": "You are a friendly waiter. Take the order, then bring the wrong side dish.",
+      "opening": "Hi there! Are you ready to order, or do you need a few more minutes?",
+      "skillTr": "Sipariş verme ve sorunu kibarca söyleme (I'll have..., I ordered..., but...)",
+      "skillEn": "Order food and report a problem politely",
+      "hints": ["I'll have the ..., please.", "Could I get it without ...?", "Excuse me, I ordered ..., but this is ..."],
+      "followUp": "Here you go. Oh, is something wrong with your dish?",
+      "transfer": {
+        "situationTr": "Sipariş ettiğin ürün hasarlı geldi. Mağazayı arıyorsun.",
+        "question": "Customer service, how can I help you today?",
+        "successTr": "Ne sipariş ettiğini ve sorunun ne olduğunu kibarca söyle."
+      }
+    },
+    {
+      "id": "pro-daily-03",
+      "pack": "professional",
+      "area": "daily",
+      "mode": "speak",
+      "titleTr": "Havalimanında pasaport kontrolü",
+      "situationTr": "Yurt dışına iş için gidiyorsun. Memur birkaç soru soruyor.",
+      "coachRole": "You are a border officer. Ask short, direct questions.",
+      "opening": "Good morning. What is the purpose of your visit?",
+      "skillTr": "Planlarını kısa ve net söyleme (I'm here for..., I'm going to stay...)",
+      "skillEn": "State your plans briefly and clearly",
+      "hints": ["I'm here for ...", "I'm going to stay for ... days.", "I'm staying at ..."],
+      "followUp": "How long will you be staying, and where?",
+      "transfer": {
+        "situationTr": "Taksi şoförü yolda sohbet ediyor.",
+        "question": "So, what brings you to Boston?",
+        "successTr": "Neden geldiğini ve ne kadar kalacağını söyle."
+      }
+    },
+    {
+      "id": "pro-daily-04",
+      "pack": "professional",
+      "area": "daily",
+      "mode": "speak",
+      "titleTr": "Tanışma ve sohbet",
+      "situationTr": "Pazartesi sabahı ofiste bir iş arkadaşınla karşılaşıyorsun.",
+      "coachRole": "You are a friendly coworker making small talk on Monday morning.",
+      "opening": "Hey, good to see you! How was your weekend?",
+      "skillTr": "Geçmişten kısa sohbet ve soruyu geri sorma (I went..., How about you?)",
+      "skillEn": "Make small talk about the past and ask back",
+      "hints": ["It was great. I ...", "Nothing special, I just ...", "How about you?"],
+      "followUp": "That sounds nice! Do you have any plans for next weekend?",
+      "transfer": {
+        "situationTr": "İş yemeğinde yanındaki kişi tatilini soruyor.",
+        "question": "I heard you just got back from a trip. Did you do anything fun?",
+        "successTr": "Ne yaptığını anlat ve soruyu karşı tarafa geri sor."
+      }
+    },
+    {
+      "id": "seller-customer-01",
+      "pack": "seller",
+      "area": "customer",
+      "mode": "write",
+      "titleTr": "Geciken kargo mesajı",
+      "situationTr": "Bir müşteri siparişinin gelmediğini yazıyor. Kargo yolda ama gecikmiş.",
+      "coachRole": "You are an online shop customer writing messages. You are a little frustrated but polite.",
+      "opening": "Hi, I ordered a custom wall decal two weeks ago and it still hasn't arrived. Where is my order?",
+      "skillTr": "Özür, durum ve sonraki adım (I'm sorry for the delay; It is currently...; I will...)",
+      "skillEn": "Apologize, give the status and the next step",
+      "hints": ["I'm sorry for the delay.", "Your order is currently ...", "I will ... and send you the tracking number."],
+      "followUp": "Okay. When exactly will it arrive? I need it by Friday.",
+      "transfer": {
+        "situationTr": "Başka bir müşteri, paketin teslim edildi göründüğünü ama almadığını yazıyor.",
+        "question": "The tracking says my package was delivered, but I didn't get anything. What should I do?",
+        "successTr": "Özür dile, durumu açıkla ve ne yapacağını söyle."
+      }
+    },
+    {
+      "id": "seller-customer-02",
+      "pack": "seller",
+      "area": "customer",
+      "mode": "write",
+      "titleTr": "İade talebi",
+      "situationTr": "Bir müşteri ürünü iade etmek istiyor.",
+      "coachRole": "You are an online shop customer who wants to return an item. You are polite but firm.",
+      "opening": "I'd like to return this item. It's not what I expected.",
+      "skillTr": "Politikayı kibarca söyleme ve seçenek sunma (I can offer..., Would you prefer...?)",
+      "skillEn": "State your policy politely and offer options",
+      "hints": ["I'm sorry to hear that.", "I can offer a full refund or a replacement.", "Would you prefer ...?"],
+      "followUp": "Who pays for the return shipping?",
+      "transfer": {
+        "situationTr": "Bir müşteri ürünün renginin fotoğraftan farklı olduğunu yazıyor.",
+        "question": "The color looks different from the photos. What can you do about it?",
+        "successTr": "Anladığını göster ve en az iki seçenek sun."
+      }
+    },
+    {
+      "id": "seller-customer-03",
+      "pack": "seller",
+      "area": "customer",
+      "mode": "write",
+      "titleTr": "Özel sipariş",
+      "situationTr": "Bir müşteri tasarımı farklı bir ölçüde istiyor.",
+      "coachRole": "You are an excited customer asking for a custom size. Give details when asked.",
+      "opening": "Hi! I love this design. Can you make it in a different size?",
+      "skillTr": "Ayrıntı sorma ve teyit etme (Could you tell me the exact...?, Just to confirm...)",
+      "skillEn": "Ask for details and confirm specifications",
+      "hints": ["Yes, I can make it in a custom size.", "Could you tell me the exact width and height?", "Just to confirm, you'd like ..."],
+      "followUp": "It should be 60 by 90 inches. How much will it cost and how long will it take?",
+      "transfer": {
+        "situationTr": "Bir müşteri düğün için toplu sipariş soruyor.",
+        "question": "I need 50 of these for a wedding in June. Is that possible?",
+        "successTr": "Mümkün olduğunu söyle, eksik ayrıntıları sor ve teyit et."
+      }
+    },
+    {
+      "id": "seller-customer-04",
+      "pack": "seller",
+      "area": "customer",
+      "mode": "write",
+      "titleTr": "Olumsuz yoruma cevap",
+      "situationTr": "Bir müşteri düşük puan vermiş ve nedenini yazıyor. Haklı.",
+      "coachRole": "You are an unhappy customer who left a low rating. You calm down if the seller takes responsibility.",
+      "opening": "I left a 2-star review because the print was blurry and nobody answered my message for three days.",
+      "skillTr": "Sorumluluk alma ve çözüm önerme (I understand..., You're right..., I'd like to make it right by...)",
+      "skillEn": "Take responsibility and propose a fix without being defensive",
+      "hints": ["I understand how frustrating that is.", "You're right, we should have replied sooner.", "I'd like to make it right by ..."],
+      "followUp": "Fine. What exactly are you offering?",
+      "transfer": {
+        "situationTr": "Bir müşteri paketlemenin özensiz olduğunu yazıyor.",
+        "question": "The box arrived crushed and the item was just thrown inside. Very disappointing.",
+        "successTr": "Sorumluluğu üstlen ve somut bir çözüm öner."
+      }
+    },
+    {
+      "id": "seller-supplier-01",
+      "pack": "seller",
+      "area": "supplier",
+      "mode": "speak",
+      "titleTr": "Baskı atölyesiyle süre pazarlığı",
+      "situationTr": "ABD'deki baskı atölyesinin temsilcisiyle telefondasın. Üretim süresini kısaltmak istiyorsun.",
+      "coachRole": "You are Mike, an account manager at a US print shop. Speak naturally and negotiate a little.",
+      "opening": "Hi, this is Mike from the print shop. You wanted to talk about turnaround times?",
+      "skillTr": "Süre ve miktar üzerine pazarlık (Could you do it in...?, If we send..., can you...?)",
+      "skillEn": "Negotiate time and volume",
+      "hints": ["Right now it takes ... days.", "Could you do it in ... days?", "If we send more orders, can you ...?"],
+      "followUp": "We can do three business days, but only for orders placed before noon. Does that work?",
+      "transfer": {
+        "situationTr": "Atölye fiyat artışı bildiriyor.",
+        "question": "I wanted to let you know we need to raise our prices by 8% starting next month.",
+        "successTr": "Tepkini kibarca söyle ve bir koşul ya da karşı teklif öner."
+      }
+    },
+    {
+      "id": "seller-supplier-02",
+      "pack": "seller",
+      "area": "supplier",
+      "mode": "speak",
+      "titleTr": "Kargo firmasına hasar talebi",
+      "situationTr": "Bir paket hasarlı teslim edilmiş. Kargo firmasının hasar hattını arıyorsun.",
+      "coachRole": "You are a claims agent at a shipping carrier. Ask for details one at a time.",
+      "opening": "Claims department. Can I have the tracking number, please?",
+      "skillTr": "Numara ve harf söyleme, hasarı tarif etme (The box was crushed; The item is cracked)",
+      "skillEn": "Read out numbers and letters; describe damage",
+      "hints": ["The tracking number is ...", "The package arrived damaged.", "The box was crushed and the item is cracked."],
+      "followUp": "Thank you. Can you describe the damage and tell me the value of the item?",
+      "transfer": {
+        "situationTr": "Kargo etiketi sisteminin destek hattını arıyorsun.",
+        "question": "Support line. Can you describe the problem you're having with your label?",
+        "successTr": "Sorunu adım adım tarif et ve gerekli numarayı söyle."
+      }
+    },
+    {
+      "id": "seller-product-01",
+      "pack": "seller",
+      "area": "product",
+      "mode": "speak",
+      "titleTr": "Ürününü anlatma",
+      "situationTr": "Bir fuarda standına gelen ziyaretçi ürünlerini soruyor.",
+      "coachRole": "You are a visitor at a craft fair looking at the seller's products. You are interested but price-sensitive.",
+      "opening": "This looks interesting. Can you tell me about your best-selling product?",
+      "skillTr": "Ürünü malzeme ve faydayla anlatma (It's made of..., It's perfect for...)",
+      "skillEn": "Describe a product by material and benefit",
+      "hints": ["It's made of ...", "It's perfect for ...", "You can choose from ... sizes."],
+      "followUp": "How is it different from the cheaper ones I see online?",
+      "transfer": {
+        "situationTr": "Bir müşteri iki ürün arasında kararsız.",
+        "question": "What makes this one different from the cheaper one?",
+        "successTr": "En az iki somut fark söyle."
+      }
+    },
+    {
+      "id": "seller-product-02",
+      "pack": "seller",
+      "area": "product",
+      "mode": "speak",
+      "titleTr": "Toptan alıcıyla pazarlık",
+      "situationTr": "Bir butik sahibi toptan sipariş vermek istiyor.",
+      "coachRole": "You are a boutique owner interested in a wholesale order. You push for a better price.",
+      "opening": "I'd like to order 200 units for my shop. What's your best price?",
+      "skillTr": "Koşullu teklif yapma (If you order..., I can offer...)",
+      "skillEn": "Make conditional offers",
+      "hints": ["For 200 units, I can offer ...", "If you order ..., I can ...", "The price includes ..."],
+      "followUp": "Can you include free shipping if I order more?",
+      "transfer": {
+        "situationTr": "Aynı alıcı siparişi büyütmeyi düşünüyor.",
+        "question": "If I double the order, what discount can you give me?",
+        "successTr": "Koşullu bir teklif yap (If you ..., I can ...)."
+      }
+    }
+  ]
+}

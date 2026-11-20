@@ -1,0 +1,11 @@
+{
+  "name": "learning-eng",
+  "private": true,
+  "description": "Mobile English coach for Turkish speakers: rehearse, get one correction, say it again, prove it three days later.",
+  "scripts": {
+    "api": "npm --prefix apps/api run start:dev",
+    "mobile": "npm --prefix apps/mobile run start",
+    "db": "docker compose up -d db",
+    "check": "npm --prefix apps/api run lint && npm --prefix apps/api test && npm --prefix apps/api run test:e2e && npm --prefix apps/api run build"
+  }
+}

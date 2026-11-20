@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "status": "draft: needs review by an English teacher before use",
+  "items": [
+    { "id": "e01", "input": "Yesterday I have finished the report.", "hasError": true, "expected": "Yesterday I finished the report.", "category": "tense" },
+    { "id": "e02", "input": "I am working here since three years.", "hasError": true, "expected": "I have been working here for three years.", "category": "tense" },
+    { "id": "e03", "input": "She work at a bank.", "hasError": true, "expected": "She works at a bank.", "category": "agreement" },
+    { "id": "e04", "input": "I bought two new computer for the office.", "hasError": true, "expected": "I bought two new computers for the office.", "category": "plural-countable" },
+    { "id": "e05", "input": "Can you give me an information about the delivery?", "hasError": true, "expected": "Can you give me some information about the delivery?", "category": "plural-countable" },
+    { "id": "e06", "input": "I will send you the tracking number in Monday.", "hasError": true, "expected": "I will send you the tracking number on Monday.", "category": "preposition" },
+    { "id": "e07", "input": "We discussed about the price yesterday.", "hasError": true, "expected": "We discussed the price yesterday.", "category": "preposition" },
+    { "id": "e08", "input": "Where I can find the invoice?", "hasError": true, "expected": "Where can I find the invoice?", "category": "word-order" },
+    { "id": "e09", "input": "I am manager of a small team.", "hasError": true, "expected": "I am the manager of a small team.", "category": "article" },
+    { "id": "e10", "input": "I made a photo of the damaged box.", "hasError": true, "expected": "I took a photo of the damaged box.", "category": "word-choice" },
+    { "id": "c01", "input": "I've been working as a developer for five years.", "hasError": false },
+    { "id": "c02", "input": "We decided to postpone the release because we found a bug during testing.", "hasError": false },
+    { "id": "c03", "input": "Could you tell me the exact width and height?", "hasError": false },
+    { "id": "c04", "input": "I'm sorry for the delay. Your order is currently in transit.", "hasError": false },
+    { "id": "c05", "input": "If you order 300 units, I can offer free shipping.", "hasError": false },
+    { "id": "c06", "input": "Yesterday I finished the report, and today I'm working on the slides.", "hasError": false }
+  ]
+}

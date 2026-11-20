@@ -1,0 +1,13 @@
+# Yerel gelistirme icin PostgreSQL. Calistir: docker compose up -d db
+# Buradaki kullanici ve sifre yalnizca yerel gelistirme icindir; baska hicbir yerde kullanma.
+services:
+  db:
+    image: postgres:17
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: learning
+      POSTGRES_PASSWORD: learning
+      POSTGRES_DB: learning_eng
+    volumes:
+      - ./db/data:/var/lib/postgresql/data
