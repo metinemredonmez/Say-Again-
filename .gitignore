@@ -27,3 +27,4 @@ db/data/
 
 # Local PGlite data (DATABASE_URL=pglite:./.data/pglite)
 .data/
+sbom.cdx.json

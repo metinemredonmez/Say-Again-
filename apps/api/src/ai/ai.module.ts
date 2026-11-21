@@ -1,5 +1,5 @@
 import Anthropic from '@anthropic-ai/sdk';
-import { Logger, Module, type Provider } from '@nestjs/common';
+import { Module, type Provider } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import OpenAI from 'openai';
 import type { Env } from '../config/env.js';
@@ -17,7 +17,6 @@ import {
   MockTextToSpeech,
 } from './mock-providers.js';
 import { OpenAiSpeechToText, OpenAiTextToSpeech } from './openai-providers.js';
-import { isPriced } from './pricing.js';
 import {
   COACH_PLACEHOLDERS,
   EVALUATOR_PLACEHOLDERS,
@@ -118,33 +117,9 @@ const providers: Provider[] = [
   },
 ];
 
+// Models without a price are refused at startup in src/config/env.ts (RES-01).
 @Module({
-  providers: [
-    ...providers,
-    {
-      provide: 'AI_PRICING_CHECK',
-      inject: [ConfigService],
-      useFactory: (config: ConfigService<Env, true>) => {
-        if (live(config)) {
-          const logger = new Logger('AiModule');
-          for (const key of [
-            'COACH_MODEL',
-            'EVALUATOR_MODEL',
-            'STT_MODEL',
-            'TTS_MODEL',
-          ] as const) {
-            const model = config.get(key, { infer: true });
-            if (!isPriced(model)) {
-              logger.warn(
-                `${key}=${model} has no price in ai/pricing.ts; its cost is logged as 0`,
-              );
-            }
-          }
-        }
-        return true;
-      },
-    },
-  ],
+  providers,
   exports: [COACH_MODEL, EVALUATOR_MODEL, SPEECH_TO_TEXT, TEXT_TO_SPEECH],
 })
 export class AiModule {}

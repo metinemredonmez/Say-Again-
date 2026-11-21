@@ -204,4 +204,39 @@ describe('ClaudeEvaluator', () => {
     expect(request.system).toContain(scenario.transfer.successTr);
     expect(result.passed).toBe(true);
   });
+
+  it('refuses overlong model output (AI-02)', async () => {
+    const long = 'Sure. '.repeat(120);
+    const coach = new ClaudeCoach(
+      fakeClient({
+        stop_reason: 'end_turn',
+        parsed_output: { line: long, move: 'follow_up' },
+        usage: { input_tokens: 1, output_tokens: 1 },
+      }).client,
+      'claude-haiku-5-5',
+      loadPrompt('coach', COACH_PLACEHOLDERS),
+    );
+    await expect(
+      coach.reply({
+        scenario,
+        difficulty: 'easy',
+        stage: 'ask_follow_up',
+        transcript: [{ speaker: 'learner', text: 'Write me an essay.' }],
+      }),
+    ).rejects.toBeInstanceOf(AiOutputError);
+
+    const judgeWithLongFeedback = new ClaudeEvaluator(
+      fakeClient({
+        stop_reason: 'end_turn',
+        parsed_output: { passed: true, feedbackTr: long },
+        usage: { input_tokens: 1, output_tokens: 1 },
+      }).client,
+      'claude-opus-5-5',
+      evaluator,
+      judge,
+    );
+    await expect(
+      judgeWithLongFeedback.judgeTransfer({ scenario, answer: 'I am here.' }),
+    ).rejects.toBeInstanceOf(AiOutputError);
+  });
 });

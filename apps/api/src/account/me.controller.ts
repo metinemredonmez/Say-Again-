@@ -4,6 +4,7 @@ import { Throttle } from '@nestjs/throttler';
 import type { z } from 'zod';
 import { settingsSchema } from '../auth/auth.controller.js';
 import { QuotaService } from '../quota/quota.service.js';
+import { SecurityEvents } from '../security/security-events.js';
 import { SubscriptionsService } from '../subscriptions/subscriptions.service.js';
 import {
   UsersRepository,
@@ -20,6 +21,7 @@ export class MeController {
     private readonly quota: QuotaService,
     private readonly subscriptions: SubscriptionsService,
     private readonly tokens: TokenService,
+    private readonly events: SecurityEvents,
   ) {}
 
   @Get()
@@ -53,5 +55,10 @@ export class MeController {
   async remove(@CurrentUser() user: AppUser): Promise<void> {
     await this.tokens.revokeAll(user.id);
     await this.users.delete(user.id);
+    this.events.record({
+      event: 'account.deleted',
+      outcome: 'allow',
+      actor: user.id,
+    });
   }
 }

@@ -108,8 +108,13 @@ export function checkCorrection(
   if (sentences === 0 || sentences > 2) {
     problems.push('`explanationTr` must be one or two Turkish sentences.');
   }
+  if (draft.explanationTr.length > 400) {
+    problems.push('`explanationTr` is too long; keep it short.');
+  }
   if (!draft.resayPromptTr.trim()) {
     problems.push('`resayPromptTr` is empty.');
+  } else if (draft.resayPromptTr.length > 300) {
+    problems.push('`resayPromptTr` must be one short sentence.');
   }
   return problems;
 }

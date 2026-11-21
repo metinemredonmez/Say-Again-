@@ -12,6 +12,7 @@ import { LessonsModule } from './lessons/lessons.module.js';
 import { ReportsModule } from './reports/reports.module.js';
 import { ReviewsModule } from './reviews/reviews.module.js';
 import { ScenariosModule } from './scenarios/scenarios.module.js';
+import { SecurityModule } from './security/security.module.js';
 import { SubscriptionsModule } from './subscriptions/subscriptions.module.js';
 
 @Module({
@@ -23,6 +24,7 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module.js';
       cache: true,
     }),
     DatabaseModule,
+    SecurityModule,
     // Every route needs a signed-in user unless it is marked @Public().
     AuthenticationModule.forRootAsync({
       inject: [ConfigService],
@@ -32,6 +34,9 @@ import { SubscriptionsModule } from './subscriptions/subscriptions.module.js';
           issuer: 'say-again-api',
           audience: 'say-again-app',
           ttl: '15m',
+          // TOK-01/TOK-02: an RFC 9068 type, and the bearer check requires it, so no other JWT
+          // signed with the same secret can pass as an access token.
+          type: 'at+jwt',
         },
         // Anonymous accounts have no other way back in, so a token family lives long: each
         // refresh token is single use and lasts a year, and reuse revokes the whole family.

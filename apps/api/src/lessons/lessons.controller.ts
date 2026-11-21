@@ -29,7 +29,7 @@ const startSchema = z.strictObject({
   difficulty: z.enum(DIFFICULTIES).optional(),
 });
 // ?audio=false skips speech synthesis (text-only clients, tests).
-const audioQuery = z.object({
+const audioQuery = z.strictObject({
   audio: z.enum(['true', 'false']).default('true'),
 });
 

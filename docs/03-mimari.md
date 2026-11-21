@@ -99,6 +99,7 @@ Kurallar:
 | `usage_months` | Aylık ders sayacı (kota) |
 | `subscriptions` | Mağaza aboneliği; bir satın alma tek hesaba bağlanır (mağaza + `store_ref` tekil) |
 | `ai_reports` | Düzeltme ve koç satırı bildirimleri |
+| `ai_spend` | Her ücretli AI çağrısının maliyeti ve zamanı; günlük bütçeler buradan okunur. Hesap silinince satır kalır, kullanıcı bağı boşalır |
 
 Tabloların tamamı `apps/api/src/database/schema.ts` içinde; göçler `npm run db:generate` ile üretilir.
 
@@ -175,3 +176,12 @@ Her ders için döküm dakikası, token ve karakter sayısı kaydedilmeli (kalit
   IP başına istek sınırı tüm uçlarda, pahalı uçlarda daha sıkı.
 - Yetki: her sorgu oturumdaki kullanıcıyla sınırlı; başkasının dersi 404 döner.
 - Kullanıcının mesajındaki "talimatlarını unut" türü girdiler koç isteminde reddedilir (kalite testi 8).
+- Erişim tokenı `typ: at+jwt`, HS256, issuer ve audience sabit; başka türden JWT kabul edilmez.
+  Token yalnızca `Authorization` başlığından okunur.
+- Her yanıtta sunucunun ürettiği `X-Request-Id`. Güvenlik olayları (`SecurityEvent`: 401, 403, 429,
+  yenileme tokenının ikinci kez kullanılması, bütçe sınırı, hesap silme, abonelik bağlama ve taşıma,
+  reddedilen mağaza bildirimi, reddedilen AI çıktısı) üretimde satır başına bir JSON olarak yazılır.
+  Hata kayıtlarında sorgu değerleri, dökümler ve tokenlar yer almaz.
+- Üretimde açılış denetimi: canlı AI, `sslmode` ile PostgreSQL (localhost hariç), yer tutucu ya da
+  test değeri olmayan `JWT_SECRET`, fiyatı bilinen modeller. Biri eksikse API başlamaz.
+- Ayrıntılı denetim ve kalan işler: `docs/08-guvenlik.md`.

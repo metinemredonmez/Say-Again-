@@ -4,7 +4,12 @@ import request from 'supertest';
 import { App } from 'supertest/types.js';
 import { MOCK_TRANSCRIPT } from '../src/ai/mock-providers.js';
 import type { Database } from '../src/database/database.js';
-import { corrections, lessons, reviewItems } from '../src/database/schema.js';
+import {
+  aiSpend,
+  corrections,
+  lessons,
+  reviewItems,
+} from '../src/database/schema.js';
 import {
   completeLesson,
   createApp,
@@ -459,10 +464,11 @@ describe('Lesson flow (e2e)', () => {
       .send({ scenarioId: 'pro-meeting-01' })
       .expect(201);
     const id: string = start.body.lesson.id;
-    await db
-      .update(lessons)
-      .set({ costMicroUsd: 2_000_000 })
-      .where(eq(lessons.id, id)); // $2
+    await db.insert(aiSpend).values({
+      userId: ivy.userId,
+      source: 'evaluator',
+      costMicroUsd: 2_000_000, // $2
+    });
     const blocked = await request(server())
       .post(`/lessons/${id}/turns?audio=false`)
       .set(ivy.auth)

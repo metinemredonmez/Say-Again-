@@ -42,7 +42,8 @@ import {
   type Lesson,
   type Turn,
 } from '../database/schema.js';
-import { QuotaService } from '../quota/quota.service.js';
+import { QuotaService, type SpendSource } from '../quota/quota.service.js';
+import { SecurityEvents } from '../security/security-events.js';
 import type { Scenario } from '../scenarios/scenario-content.js';
 import { ScenariosService } from '../scenarios/scenarios.service.js';
 import type { AppUser } from '../users/users.repository.js';
@@ -128,6 +129,7 @@ export class LessonsService {
     @Inject(EVALUATOR_MODEL) private readonly evaluator: EvaluatorModel,
     @Inject(SPEECH_TO_TEXT) private readonly stt: SpeechToText,
     @Inject(TEXT_TO_SPEECH) private readonly tts: TextToSpeech,
+    private readonly events: SecurityEvents,
   ) {}
 
   // Start
@@ -306,6 +308,7 @@ export class LessonsService {
       throw this.aiError('coach', lesson.id, error);
     }
 
+    await this.addUsage(this.db, lesson, 'coach', reply.usage);
     await this.db.insert(turns).values({
       lessonId: lesson.id,
       position: position + 1,
@@ -314,7 +317,6 @@ export class LessonsService {
       text: reply.text,
       latencyMs: Date.now() - started,
     });
-    await this.addUsage(this.db, lesson.id, reply.usage);
 
     const audio = withAudio
       ? await this.speak(lesson, reply.text, lesson.difficulty)
@@ -650,7 +652,7 @@ export class LessonsService {
     } catch (error) {
       throw this.aiError('speech-to-text', lesson.id, error);
     }
-    await this.addUsage(this.db, lesson.id, {
+    await this.addUsage(this.db, lesson, 'speech_to_text', {
       sttMs: transcription.durationMs,
       costMicroUsd: transcription.costMicroUsd,
     });
@@ -682,7 +684,7 @@ export class LessonsService {
         transcript,
         problems,
       });
-      await this.addUsage(this.db, lesson.id, usage);
+      await this.addUsage(this.db, lesson, 'evaluator', usage);
       problems = checkCorrection(draft, learnerLines);
       if (problems.length === 0) {
         return draft;
@@ -701,7 +703,7 @@ export class LessonsService {
   ): Promise<AudioClip | undefined> {
     try {
       const spoken = await this.tts.synthesize(text, { difficulty });
-      await this.addUsage(this.db, lesson.id, {
+      await this.addUsage(this.db, lesson, 'text_to_speech', {
         ttsChars: spoken.chars,
         costMicroUsd: spoken.costMicroUsd,
       });
@@ -718,11 +720,19 @@ export class LessonsService {
     }
   }
 
+  /** The lesson's usage totals, and the spend row the daily budgets read (RES-01). */
   private async addUsage(
     tx: Executor,
-    lessonId: string,
+    lesson: Lesson,
+    source: SpendSource,
     delta: UsageDelta,
   ): Promise<void> {
+    await this.quota.recordSpend(
+      tx,
+      lesson.userId,
+      source,
+      delta.costMicroUsd ?? 0,
+    );
     await tx
       .update(lessons)
       .set({
@@ -732,14 +742,26 @@ export class LessonsService {
         outputTokens: sql`${lessons.outputTokens} + ${delta.outputTokens ?? 0}`,
         costMicroUsd: sql`${lessons.costMicroUsd} + ${delta.costMicroUsd ?? 0}`,
       })
-      .where(eq(lessons.id, lessonId));
+      .where(eq(lessons.id, lesson.id));
   }
 
   private aiError(step: string, lessonId: string, error: unknown): Error {
-    // LOG: the lesson id and the error type only; transcripts never go to the logs.
+    // LOG-02: the lesson id and the error type, and the message only for the AI errors, whose
+    // messages this code writes. Transcripts never go to the logs.
+    const known =
+      error instanceof AiUnavailableError || error instanceof AiOutputError;
     this.logger.error(
-      `AI ${step} failed for lesson ${lessonId}: ${(error as Error).name}: ${(error as Error).message}`,
+      `AI ${step} failed for lesson ${lessonId}: ${(error as Error).name}${known ? `: ${(error as Error).message}` : ''}`,
     );
+    if (error instanceof AiOutputError) {
+      // A refusal, unusable output, or a correction the server checks threw out (AI-02).
+      this.events.record({
+        event: 'ai.output_rejected',
+        outcome: 'deny',
+        object: lessonId,
+        reason: `${step}: ${error.message}`,
+      });
+    }
     if (error instanceof AiUnavailableError) {
       return new ApiError(
         HttpStatus.SERVICE_UNAVAILABLE,

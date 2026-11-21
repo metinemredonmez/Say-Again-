@@ -7,7 +7,7 @@ import {
   UnauthorizedException,
 } from '@nestjs/common';
 import { CurrentUser, Public } from '@nestjs/authentication';
-import { SkipThrottle, Throttle } from '@nestjs/throttler';
+import { Throttle } from '@nestjs/throttler';
 import { z } from 'zod';
 import type { AppUser } from '../users/users.repository.js';
 import { SubscriptionsService } from './subscriptions.service.js';
@@ -23,6 +23,7 @@ const googleSchema = z.strictObject({
   restore: z.boolean().default(false),
 });
 const appleNotificationSchema = z.object({
+  // Apple may add fields; only signedPayload is read.
   signedPayload: z.string().min(10).max(100_000),
 });
 
@@ -57,8 +58,10 @@ export class SubscriptionsController {
 
 // Store-to-server notifications. They carry no user session; each one is authenticated by its
 // own signature (Apple JWS chain) or token (Google OIDC), and anything else gets a 401.
+// EXT-04: a notification only triggers a fresh read from the store, so a replayed one changes
+// nothing. RES-01: a high per-address budget, far above what a store sends; both stores retry.
 @Public()
-@SkipThrottle()
+@Throttle({ default: { limit: 1200, ttl: 60_000 } })
 @Controller('webhooks')
 export class StoreWebhooksController {
   constructor(private readonly subscriptions: SubscriptionsService) {}

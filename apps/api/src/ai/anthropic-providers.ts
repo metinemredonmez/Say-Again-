@@ -25,6 +25,9 @@ import { asData, type PromptTemplate } from './prompts.js';
 // official Anthropic SDK. AI-01: learner text is never put in a system prompt; the coach gets it
 // as user messages and the evaluator inside <transcript> tags in the user message.
 
+export const MAX_COACH_LINE_CHARS = 600;
+export const MAX_FEEDBACK_CHARS = 300;
+
 const coachLineSchema = z.object({
   line: z
     .string()
@@ -167,6 +170,11 @@ export class ClaudeCoach implements CoachModel {
           `Coach gave no line (stop reason ${response.stop_reason})`,
         );
       }
+      // AI-02: model output is untrusted. One or two short sentences fit easily; a long line
+      // means the model left its role (an answer that talked it into an essay).
+      if (parsed.line.trim().length > MAX_COACH_LINE_CHARS) {
+        throw new AiOutputError('Coach line too long');
+      }
       return {
         text: parsed.line.trim(),
         move:
@@ -234,6 +242,9 @@ export class ClaudeEvaluator implements EvaluatorModel {
       [{ role: 'user', content: `<answer>\n${asData(answer)}\n</answer>` }],
       judgementSchema,
     );
+    if (object.value.feedbackTr.trim().length > MAX_FEEDBACK_CHARS) {
+      throw new AiOutputError('Transfer judge feedback too long');
+    }
     return { ...object.value, usage: object.usage };
   }
 

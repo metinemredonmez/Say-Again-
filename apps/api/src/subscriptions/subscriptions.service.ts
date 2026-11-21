@@ -6,6 +6,7 @@ import { ApiError } from '../common/api-error.js';
 import type { Env } from '../config/env.js';
 import type { Database } from '../database/database.js';
 import { STORES, subscriptions, users } from '../database/schema.js';
+import { SecurityEvents } from '../security/security-events.js';
 import type { AppUser } from '../users/users.repository.js';
 import {
   AppleStore,
@@ -53,6 +54,7 @@ export class SubscriptionsService {
   constructor(
     @InjectDrizzle() private readonly db: Database,
     config: ConfigService<Env, true>,
+    private readonly events: SecurityEvents,
   ) {
     const keys = [
       'APPLE_BUNDLE_ID',
@@ -151,7 +153,12 @@ export class SubscriptionsService {
       return true;
     } catch (error) {
       if (error instanceof StoreUnverifiedError) {
-        this.logger.warn(`App Store notification refused: ${error.message}`);
+        this.events.record({
+          event: 'webhook.refused',
+          outcome: 'deny',
+          object: 'app_store',
+          reason: error.message,
+        });
         return false;
       }
       if (error instanceof StoreRejectedError) {
@@ -169,7 +176,16 @@ export class SubscriptionsService {
     authorization: string | undefined,
     body: unknown,
   ): Promise<boolean> {
-    if (!this.google || !(await this.google.verifyPush(authorization))) {
+    if (!this.google) {
+      return false;
+    }
+    if (!(await this.google.verifyPush(authorization))) {
+      this.events.record({
+        event: 'webhook.refused',
+        outcome: 'deny',
+        object: 'play_store',
+        reason: 'push token not verified',
+      });
       return false;
     }
     const data = (body as { message?: { data?: string } })?.message?.data;
@@ -222,9 +238,13 @@ export class SubscriptionsService {
       );
     }
     if (found.accountToken !== user.id && !restore) {
-      this.logger.warn(
-        `Store purchase for another account refused (store ${store})`,
-      );
+      this.events.record({
+        event: 'subscription.refused',
+        outcome: 'deny',
+        actor: user.id,
+        object: store,
+        reason: 'purchase made for another account',
+      });
       throw new ApiError(
         HttpStatus.CONFLICT,
         'purchase_other_account',
@@ -232,6 +252,13 @@ export class SubscriptionsService {
       );
     }
     const row = await this.upsert(user.id, store, found);
+    this.events.record({
+      event: 'subscription.linked',
+      outcome: 'allow',
+      actor: user.id,
+      object: store,
+      reason: restore ? 'restore' : 'purchase',
+    });
     return { subscription: subscriptionView(row) };
   }
 
@@ -280,9 +307,13 @@ export class SubscriptionsService {
         )
         .for('update');
       if (previous && previous.userId !== userId) {
-        this.logger.log(
-          `Store purchase moved to another account (store ${store})`,
-        );
+        this.events.record({
+          event: 'subscription.moved',
+          outcome: 'allow',
+          actor: userId,
+          object: store,
+          reason: `from account ${previous.userId}`,
+        });
       }
       const state = {
         userId,

@@ -27,6 +27,7 @@ import {
 } from '../database/schema.js';
 import { LessonsService } from '../lessons/lessons.service.js';
 import { QuotaService } from '../quota/quota.service.js';
+import { SecurityEvents } from '../security/security-events.js';
 import { ScenariosService } from '../scenarios/scenarios.service.js';
 import type { AppUser } from '../users/users.repository.js';
 
@@ -60,6 +61,7 @@ export class ReviewsService {
     private readonly quota: QuotaService,
     @Inject(EVALUATOR_MODEL) private readonly evaluator: EvaluatorModel,
     @Inject(SPEECH_TO_TEXT) private readonly stt: SpeechToText,
+    private readonly events: SecurityEvents,
   ) {}
 
   async today(user: AppUser, now = new Date()) {
@@ -184,6 +186,13 @@ export class ReviewsService {
         const transcription = await this.stt.transcribe(answer.audio, {
           scenario,
         });
+        // RES-01: written now, so parallel or failed answers are still counted.
+        await this.quota.recordSpend(
+          this.db,
+          user.id,
+          'speech_to_text',
+          transcription.costMicroUsd,
+        );
         text = transcription.text.trim();
         costMicroUsd += transcription.costMicroUsd;
       }
@@ -207,6 +216,12 @@ export class ReviewsService {
     } catch (error) {
       throw this.aiError('transfer judge', item.id, error);
     }
+    await this.quota.recordSpend(
+      this.db,
+      user.id,
+      'transfer_judge',
+      judgement.usage.costMicroUsd,
+    );
     costMicroUsd += judgement.usage.costMicroUsd;
     // A floor the model cannot talk its way past: a real English answer of a few words.
     const passed = judgement.passed && looksLikeAnAnswer(text);
@@ -342,6 +357,14 @@ export class ReviewsService {
     this.logger.error(
       `AI ${step} failed for review item ${itemId}: ${(error as Error).name}`,
     );
+    if (error instanceof AiOutputError) {
+      this.events.record({
+        event: 'ai.output_rejected',
+        outcome: 'deny',
+        object: itemId,
+        reason: `${step}: ${error.message}`,
+      });
+    }
     if (error instanceof AiUnavailableError) {
       return new ApiError(
         HttpStatus.SERVICE_UNAVAILABLE,

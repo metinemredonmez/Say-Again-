@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { isPriced } from '../ai/pricing.js';
 
 // Every setting the API reads, validated once at startup. A missing or invalid value stops the
 // app from starting (EXC-01, OPS-01). Secrets come only from the environment (apps/api/.env).
@@ -19,6 +20,38 @@ const csv = z
   );
 const count = (fallback: number) =>
   z.coerce.number().int().min(0).max(100_000).default(fallback);
+
+// The secret the test configs use (vitest.config*.ts). It is public, so production refuses it.
+const TEST_JWT_SECRET = 'test-only-jwt-secret-of-at-least-32-bytes';
+
+/** Why a JWT secret is unfit for production, or null. */
+export function jwtSecretWeakness(secret: string): string | null {
+  if (secret === TEST_JWT_SECRET) {
+    return 'is the public test secret';
+  }
+  if (/secret|change|example|test|password|default|placeholder/i.test(secret)) {
+    return 'looks like a placeholder';
+  }
+  if (new Set(secret).size < 10) {
+    return 'repeats too few characters to be random';
+  }
+  return null;
+}
+
+/** True when a postgres:// URL asks for TLS, or points at this machine. */
+export function databaseUsesTls(url: string): boolean {
+  let parsed: URL;
+  try {
+    parsed = new URL(url);
+  } catch {
+    return false;
+  }
+  const sslmode = parsed.searchParams.get('sslmode');
+  if (sslmode && ['require', 'verify-ca', 'verify-full'].includes(sslmode)) {
+    return true;
+  }
+  return ['localhost', '127.0.0.1', '[::1]', ''].includes(parsed.hostname);
+}
 
 export const envSchema = z
   .object({
@@ -47,7 +80,7 @@ export const envSchema = z
     OPENAI_API_KEY: optionalText,
     COACH_MODEL: z.string().default('claude-haiku-5-5'),
     EVALUATOR_MODEL: z.string().default('claude-opus-5-5'),
-    STT_MODEL: z.string().default('gpt-4o-transcribe'),
+    STT_MODEL: z.string().default('gpt-transcribe'),
     TTS_MODEL: z.string().default('gpt-4o-mini-tts'),
     TTS_VOICE: z.string().default('marin'),
 
@@ -89,6 +122,22 @@ export const envSchema = z
     if (env.AI_PROVIDER === 'live') {
       need('ANTHROPIC_API_KEY', 'when AI_PROVIDER=live');
       need('OPENAI_API_KEY', 'when AI_PROVIDER=live');
+      // RES-01, EXC-01: a model without a price would count as free and slip past the daily
+      // spend budgets, so the app does not start with one.
+      for (const key of [
+        'COACH_MODEL',
+        'EVALUATOR_MODEL',
+        'STT_MODEL',
+        'TTS_MODEL',
+      ] as const) {
+        if (!isPriced(env[key])) {
+          ctx.addIssue({
+            code: 'custom',
+            path: [key],
+            message: `${env[key]} has no price in src/ai/pricing.ts; add it there first`,
+          });
+        }
+      }
     }
     if (env.NODE_ENV === 'production') {
       if (env.AI_PROVIDER !== 'live') {
@@ -103,6 +152,23 @@ export const envSchema = z
           code: 'custom',
           path: ['DATABASE_URL'],
           message: 'must be a postgres:// URL in production',
+        });
+      } else if (!databaseUsesTls(env.DATABASE_URL)) {
+        // NET-01: no plaintext database connection across a network.
+        ctx.addIssue({
+          code: 'custom',
+          path: ['DATABASE_URL'],
+          message:
+            'needs sslmode=verify-full (or require) in production, unless the database is on localhost',
+        });
+      }
+      const weakness = jwtSecretWeakness(env.JWT_SECRET);
+      if (weakness) {
+        // KEY-01: a placeholder or guessable secret would let anyone sign access tokens.
+        ctx.addIssue({
+          code: 'custom',
+          path: ['JWT_SECRET'],
+          message: `${weakness}; make one with: openssl rand -base64 32`,
         });
       }
     }

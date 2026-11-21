@@ -324,6 +324,36 @@ export const aiReports = pgTable(
   ],
 );
 
+export const SPEND_SOURCES = [
+  'speech_to_text',
+  'coach',
+  'evaluator',
+  'transfer_judge',
+  'text_to_speech',
+] as const;
+
+// RES-01: every paid AI call, written right after the call, whatever happens to the request
+// afterwards. The daily budgets read this table. Deleting an account keeps the rows with no user
+// (cost and time only), so deleting accounts cannot reset the global budget.
+export const aiSpend = pgTable(
+  'ai_spend',
+  {
+    id: uuid('id').primaryKey().defaultRandom(),
+    userId: uuid('user_id').references(() => users.id, {
+      onDelete: 'set null',
+    }),
+    source: text('source', { enum: SPEND_SOURCES }).notNull(),
+    costMicroUsd: integer('cost_micro_usd').notNull(),
+    at: at('at').notNull().defaultNow(),
+  },
+  (t) => [
+    index('ai_spend_at_idx').on(t.at),
+    index('ai_spend_user_at_idx').on(t.userId, t.at),
+    check('ai_spend_source_check', inList('source', SPEND_SOURCES)),
+    check('ai_spend_cost_check', sql`${t.costMicroUsd} >= 0`),
+  ],
+);
+
 export type User = typeof users.$inferSelect;
 export type Lesson = typeof lessons.$inferSelect;
 export type Turn = typeof turns.$inferSelect;

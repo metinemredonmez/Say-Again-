@@ -8,7 +8,7 @@ import {
   type ScenarioSummary,
 } from './scenarios.service.js';
 
-const listScenariosQuerySchema = z.object({
+const listScenariosQuerySchema = z.strictObject({
   pack: scenarioIdSchema.optional(),
 });
 

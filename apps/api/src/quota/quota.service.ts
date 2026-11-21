@@ -17,17 +17,22 @@ import { ApiError } from '../common/api-error.js';
 import type { Env } from '../config/env.js';
 import type { Database, Executor } from '../database/database.js';
 import {
+  aiSpend,
   lessons,
-  reviewItems,
   subscriptions,
   usageMonths,
+  type SPEND_SOURCES,
 } from '../database/schema.js';
+import { SecurityEvents } from '../security/security-events.js';
+
+export type SpendSource = (typeof SPEND_SOURCES)[number];
 
 // Quota (product rules): three free lessons, then a subscription with 20 lessons a month. A
 // lesson counts when it is completed (after the resay), so starting one checks what is left.
 // RES-01: AI spend is bounded by what was actually spent today, per user and in total, so
 // lessons that are started and dropped cannot block anyone (a start without answers costs
-// almost nothing and counts almost nothing).
+// almost nothing and counts almost nothing). Every paid call is written to ai_spend right after
+// it returns, before anything else can fail, and the rows outlive the account.
 
 export interface QuotaStatus {
   plan: 'free' | 'subscribed' | 'unlimited';
@@ -59,7 +64,22 @@ export class QuotaService {
   constructor(
     @InjectDrizzle() private readonly db: Database,
     private readonly config: ConfigService<Env, true>,
+    private readonly events: SecurityEvents,
   ) {}
+
+  /** Records one paid AI call. Call it as soon as the call returns. */
+  async recordSpend(
+    tx: Executor,
+    userId: string,
+    source: SpendSource,
+    costMicroUsd: number,
+  ): Promise<void> {
+    if (costMicroUsd > 0) {
+      await tx
+        .insert(aiSpend)
+        .values({ userId, source, costMicroUsd: Math.round(costMicroUsd) });
+    }
+  }
 
   async activeSubscription(userId: string, now = new Date()) {
     const [row] = await this.db
@@ -183,6 +203,11 @@ export class QuotaService {
     if (
       usd(mine) >= this.config.get('DAILY_USER_AI_BUDGET_USD', { infer: true })
     ) {
+      this.events.record({
+        event: 'ai_budget.user_limit',
+        outcome: 'deny',
+        actor: userId,
+      });
       throw new ApiError(
         HttpStatus.TOO_MANY_REQUESTS,
         'daily_limit',
@@ -193,6 +218,12 @@ export class QuotaService {
       usd(everyone) >=
       this.config.get('GLOBAL_DAILY_AI_BUDGET_USD', { infer: true })
     ) {
+      // Every paid lesson is paused until midnight UTC: someone should look.
+      this.events.record({
+        event: 'ai_budget.global_limit',
+        outcome: 'alert',
+        actor: userId,
+      });
       throw new ApiError(
         HttpStatus.SERVICE_UNAVAILABLE,
         'service_busy',
@@ -201,30 +232,18 @@ export class QuotaService {
     }
   }
 
-  /** Micro-dollars spent today on lessons started today and on review answers. */
+  /** Micro-dollars spent since midnight UTC, by one user or by everyone. */
   private async spentToday(userId: string | null, now: Date): Promise<number> {
-    const since = startOfUtcDay(now);
-    const [[lessonSpend], [reviewSpend]] = await Promise.all([
-      this.db
-        .select({ total: sum(lessons.costMicroUsd) })
-        .from(lessons)
-        .where(
-          and(
-            gte(lessons.startedAt, since),
-            userId ? eq(lessons.userId, userId) : undefined,
-          ),
+    const [row] = await this.db
+      .select({ total: sum(aiSpend.costMicroUsd) })
+      .from(aiSpend)
+      .where(
+        and(
+          gte(aiSpend.at, startOfUtcDay(now)),
+          userId ? eq(aiSpend.userId, userId) : undefined,
         ),
-      this.db
-        .select({ total: sum(reviewItems.costMicroUsd) })
-        .from(reviewItems)
-        .where(
-          and(
-            gte(reviewItems.doneAt, since),
-            userId ? eq(reviewItems.userId, userId) : undefined,
-          ),
-        ),
-    ]);
-    return Number(lessonSpend?.total ?? 0) + Number(reviewSpend?.total ?? 0);
+      );
+    return Number(row?.total ?? 0);
   }
 
   /** Counts a completed lesson for the month (statistics), inside the completing transaction. */
