@@ -1,7 +1,7 @@
 # Güvenlik denetimi
 
 Say Again API'si ve AI katmanı, kullanıcının bütün projelerde temel aldığı red-team kataloğuna
-(`~/Code/red-team`, OWASP ASVS 5.0.0 eşlemeli 108 kontrol) göre denetlendi. Önce P0 kontroller
+(`~/Code/red-team`, OWASP ASVS 5.0.0 eşlemeli 109 kontrol) göre denetlendi. Önce P0 kontroller
 ele alındı. Bu belge sonucu, düzeltilen açıkları ve yayından önce kalan işleri anlatır.
 
 - **Tarih:** 2026-11-21
@@ -25,7 +25,7 @@ parçalara bağlı. Kodda bilinen açık bir P0 bulgusu kalmadı.
 
 | Durum | Sayı |
 | --- | --- |
-| Geçti | 34 |
+| Geçti | 35 |
 | Uygulanmaz (gerekçeli) | 38 |
 | Risk kabul edildi | 1 (SES-03, son tarih 2027-06-30) |
 | Doğrulanacak | 35 |
@@ -66,7 +66,7 @@ edildi (build `3fb1e4a` / `595ad9c`).
 | CVSS 3.1 | 4.3, `CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L` |
 | CVSS 4.0 | `CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N` |
 | Ön koşul | Anonim hesap (herkes açabilir) |
-| İlgili kontroller | RES-01 |
+| İlgili kontroller | AI-03, RES-01 |
 | Durum | Giderildi |
 
 **Açıklama:** Günlük harcama, ders ve tekrar kayıtlarından toplanıyordu. Bu kayıtlar hesapla birlikte
@@ -95,7 +95,7 @@ NULL`): kişisel veri kalmıyor.
 | CVSS 3.1 | 4.3, `CVSS:3.1/AV:N/AC:L/PR:L/UI:N/S:U/C:N/I:N/A:L` |
 | CVSS 4.0 | `CVSS:4.0/AV:N/AC:L/AT:N/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N` |
 | Ön koşul | Hesap ve vadesi gelmiş bir transfer sorusu |
-| İlgili kontroller | RES-01, BUS-02 |
+| İlgili kontroller | AI-03, RES-01, BUS-02 |
 | Durum | Giderildi |
 
 **Açıklama:** Transfer cevabının maliyeti (döküm ve Opus değerlendirmesi) yalnızca kayıt
@@ -116,7 +116,7 @@ akışındaki koç, değerlendirici, döküm ve seslendirme çağrıları da ayn
 | CVSS 3.1 | 3.1, `CVSS:3.1/AV:N/AC:H/PR:L/UI:N/S:U/C:N/I:N/A:L` |
 | CVSS 4.0 | `CVSS:4.0/AV:N/AC:H/AT:P/PR:L/UI:N/VC:N/VI:N/VA:L/SC:N/SI:N/SA:N` |
 | Ön koşul | `.env` içinde `src/ai/pricing.ts`'de olmayan bir model |
-| İlgili kontroller | EXC-01, RES-01 |
+| İlgili kontroller | AI-03, EXC-01, RES-01 |
 | Durum | Giderildi |
 
 **Açıklama:** Fiyatı bilinmeyen model 0 $ sayılıyor ve yalnızca bir uyarı yazılıyordu. Bu bir
@@ -203,6 +203,9 @@ localhost bundan muaf.
 | API-01 | Uç envanteri test edilmiyordu | Test, sunulan uçların `docs/03-mimari.md` tablosuyla aynı olduğunu ve açık olmayan her ucun tokensız 401 döndüğünü denetliyor |
 | OPS-04 | SBOM yoktu | CI her koşuda üretim bağımlılıklarının CycloneDX SBOM'unu artefakt olarak saklıyor (90 gün) |
 | Bağımlılık | `tmp` < 0.2.6, GHSA-ph9p-34f9-6g65 / CVE-2026-44705 (yüksek; yalnızca geliştirme, `@nestjs/mau` içinden). KEV'de yok, EPSS 0,004 | `overrides` ile 0.2.7. `npm audit` (geliştirme dahil) 0 açık |
+
+SA-01, SA-02 ve SA-03 kataloğa yeni bir P0 kontrol olarak eklendi: **AI-03, LLM maliyet bütçesi ve
+sınırsız tüketim**, kabul senaryosu DVT-19 (red-team `b81face`).
 
 Önceden doğru olduğu doğrulananlar (testleriyle):
 

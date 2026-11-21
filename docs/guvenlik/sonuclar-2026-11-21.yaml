@@ -6,7 +6,7 @@ run:
   build: "git:3fb1e4a (CI 44881683626), git:595ad9c (CI 44881935760)"
   environment: "yerel + GitHub Actions (PGlite ve PostgreSQL 17), üretim profili smoke testi"
   date: 2026-11-21
-  policy_version: "red-team e7c1fc1"
+  policy_version: "red-team b81face"
 
 results:
   # 7.1 Mimari
@@ -427,6 +427,14 @@ results:
       - "apps/api/src/ai/guards.spec.ts: uydurma sayı, parça cümle, uzun açıklama reddi"
       - "apps/api/src/ai/anthropic-providers.spec.ts: çok uzun koç satırı ve geri bildirim reddi"
     note: "RAG yok. Çıktı şemayla doğrulanır ve JSON olarak döner."
+  AI-03:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: silinen hesabın harcaması genel bütçede kalır"
+      - "apps/api/test/lessons.e2e-spec.ts: kullanıcı bütçesi dolunca ücretli çağrı yapılmaz"
+      - "apps/api/src/config/env.spec.ts: fiyatsız modelle live modda başlamaz"
+      - "apps/api/src/ai/anthropic-providers.spec.ts: aşırı uzun çıktı reddedilir"
+    note: "Her çağrı döner dönmez ai_spend'e yazılır (ders ve transfer akışı). Ses 3 MB, metin 1000 karakter; zaman aşımı ve yeniden deneme sınırlı."
   ASM-01:
     status: to_verify
     note: "Alan adı seçilince."

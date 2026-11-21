@@ -6,8 +6,8 @@ seçenek.
 ## 2026-11-21
 
 - **Red-team kataloğuna göre tam denetim (`docs/08-guvenlik.md`).** P0'lar önce ele alındı. Sonuç
-  dosyası `docs/guvenlik/sonuclar-2026-11-21.yaml`: 34 geçti, 38 gerekçeyle uygulanmaz, 1 risk
-  kabulü, 35 doğrulanacak. P0 yayın kapısı ENGELLİ. Açık P0'ların hepsi admin paneline ya da
+  dosyası `docs/guvenlik/sonuclar-2026-11-21.yaml`: 35 geçti, 38 gerekçeyle uygulanmaz, 1 risk
+  kabulü, 35 doğrulanacak. AI harcama açıkları kataloğa AI-03 olarak eklendi. P0 yayın kapısı ENGELLİ. Açık P0'ların hepsi admin paneline ya da
   barındırmaya bağlı.
 - **AI harcaması ayrı bir defterde (`ai_spend`), hesap silinince satırlar kalır.** Neden: önceki
   hesapta silinen hesabın harcaması genel bütçeden düşüyordu ve paralel transfer cevaplarının
