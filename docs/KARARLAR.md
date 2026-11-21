@@ -3,6 +3,33 @@
 Önemli ürün ve teknik kararların kaydı. Yeni karar en üste eklenir: tarih, karar, neden, vazgeçilen
 seçenek.
 
+## 2026-11-21
+
+- **Red-team kataloğuna göre tam denetim (`docs/08-guvenlik.md`).** P0'lar önce ele alındı. Sonuç
+  dosyası `docs/guvenlik/sonuclar-2026-11-21.yaml`: 34 geçti, 38 gerekçeyle uygulanmaz, 1 risk
+  kabulü, 35 doğrulanacak. P0 yayın kapısı ENGELLİ. Açık P0'ların hepsi admin paneline ya da
+  barındırmaya bağlı.
+- **AI harcaması ayrı bir defterde (`ai_spend`), hesap silinince satırlar kalır.** Neden: önceki
+  hesapta silinen hesabın harcaması genel bütçeden düşüyordu ve paralel transfer cevaplarının
+  maliyeti hiç sayılmıyordu (SA-01, SA-02). Satırda kullanıcı bağı boşalır, kişisel veri kalmaz.
+  Vazgeçilen: ders ve tekrar kayıtlarındaki maliyet sütunlarını toplamak (bunlar istatistik için
+  kalıyor).
+- **Üretim açılış denetimi sıkılaştı.** Şunlardan biri varsa API başlamaz:
+  - yer tutucu ya da test değeri olan bir `JWT_SECRET`,
+  - `sslmode` olmayan uzak bir veritabanı,
+  - fiyatı tanımsız bir model.
+
+  Vazgeçilen: uyarı yazıp başlamak, çünkü uyarı fail-open demek.
+- **Erişim tokenı `typ: at+jwt`.** Aynı sırla imzalanmış başka bir JWT erişim tokenı yerine geçemez.
+- **Güvenlik olayları yapılandırılmış log olarak, istek kimliğiyle (`X-Request-Id`); üretimde JSON.**
+  Hata loglarında sorgu değerleri, dökümler ve tokenlar yok. Alarm kuralları log platformu
+  seçilince yazılacak.
+- **Veri katmanında ikinci bariyer: RLS yerine `(id, user_id)` bileşik yabancı anahtarlar.** Neden:
+  tek veritabanı rolü ve kullanıcı başına veri modeli için yeterli ve basit. Admin API'si satır
+  bazlı rol gerektirirse RLS yeniden değerlendirilecek.
+- **Risk kabulü (SES-03, sahibi ürün sahibi, son tarih 2027-06-30):** yenileme tokenı 365 gün, aile
+  10 yıl. Anonim hesabın başka geri dönüş yolu yok. Apple/Google ile giriş eklenince kısaltılacak.
+
 ## 2026-11-20
 
 - **Bağımsız güvenlik ve doğruluk incelemesinden sonra (aynı gün).** Düzeltilenler: günlük sınır ders

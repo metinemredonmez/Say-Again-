@@ -70,7 +70,7 @@ tokenını `restore: true` ile gönderir; abonelik yeni hesaba taşınır.
 | `prompts` | Koç, değerlendirici ve transfer değerlendirme istemleri; kodsuz prova için başlangıç istemi |
 | `db` | Yerel PostgreSQL verisi (Docker ile); şema `apps/api/src/database` içinde |
 | `evals` | AI kalite testlerinin cevap anahtarları |
-| `docs` | Ürün, MVP kapsamı, mimari, yol haritası, kalite testleri, yayın ve hukuk, 30 günlük plan |
+| `docs` | Ürün, MVP kapsamı, mimari, yol haritası, kalite testleri, yayın ve hukuk, 30 günlük plan, güvenlik denetimi (`08-guvenlik.md`) |
 
 ## Kontrol
 

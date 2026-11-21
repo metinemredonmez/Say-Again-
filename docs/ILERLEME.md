@@ -2,6 +2,14 @@
 
 Her çalışma oturumunun sonunda tarihli tek satır ekle: ne bitti, sırada ne var. Yeni satır en üste.
 
+## 2026-11-21
+
+- API ve AI katmanı red-team kataloğuna göre denetlendi (`docs/08-guvenlik.md`). Bulunan altı açık
+  düzeltildi: silmeye dayanıklı AI harcama defteri, fiyatsız modelde açılmama, loglarda döküm
+  sızıntısı, zayıf sır, şifresiz veritabanı. Eklenenler: güvenlik olayları ve istek kimliği, `at+jwt`,
+  veritabanı bariyeri, uç envanteri testi, SBOM. Testler: 49 birim, 46 e2e (PGlite ve PostgreSQL),
+  CI yeşil. Sırada: admin ve mobil şablonları; açık P0'lar onlara ve barındırmaya bağlı.
+
 ## 2026-11-20
 
 - Backend ve AI katmanı yazıldı (API): anonim hesap ve tokenlar, ders akışı (başlat, cevap, tek

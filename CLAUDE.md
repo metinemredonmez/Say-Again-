@@ -96,6 +96,7 @@ Actions, yalnızca API). Node.js 22+ gerekir (`.nvmrc`).
 Backend ve AI katmanı tamam (API): anonim cihaz hesabı ve tokenlar, ders akışı, Claude koç
 (Haiku 5.5) ve değerlendirici (Opus 5.5), OpenAI ses, tekrar ve transfer, Bugün, Defter, kota,
 Apple ve Google abonelik doğrulaması, bildirimler, hesap silme. Gerçek anahtarlarla ve mağaza
-hesaplarıyla henüz denenmedi. `apps/mobile` hâlâ Expo şablonudur; admin paneli için kullanıcı bir
+hesaplarıyla henüz denenmedi. Güvenlik denetimi ve kalan P0'lar: `docs/08-guvenlik.md`.
+`apps/mobile` hâlâ Expo şablonudur; admin paneli için kullanıcı bir
 şablon verecek, admin API'si onunla yazılacak (`docs/KARARLAR.md`). Açık risk: OpenAI seslendirme
 modelleri 2027-01-06'da kapanıyor. Görev listesi `docs/04-yol-haritasi.md` içinde.

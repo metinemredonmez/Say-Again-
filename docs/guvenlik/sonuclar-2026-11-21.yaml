@@ -1,0 +1,435 @@
+# Say Again: red-team kataloğuna göre güvenlik denetimi sonucu (biçim: red-team/results/ornek.yaml).
+# Kapsam: apps/api (NestJS API ve AI katmanı). Mobil uygulama ve admin paneli bu build'de yok.
+# Hesaplamak için: uv run --project ~/Code/red-team redteam report docs/guvenlik/sonuclar-2026-11-21.yaml --format md
+# Kanıtlar depodaki testler ve CI koşusudur; token, IP ya da sır içeren kanıt dosyası yoktur.
+run:
+  build: "git:3fb1e4a (CI 44881683626), git:595ad9c (CI 44881935760)"
+  environment: "yerel + GitHub Actions (PGlite ve PostgreSQL 17), üretim profili smoke testi"
+  date: 2026-11-21
+  policy_version: "red-team e7c1fc1"
+
+results:
+  # 7.1 Mimari
+  ARC-01:
+    status: to_verify
+    note: "Bileşen listesi docs/08-guvenlik.md içinde; dağıtım seçilince çalışan servislerle karşılaştırılacak."
+  ARC-02:
+    status: pass
+    evidence:
+      - "apps/api/src/auth/jwt-auth.provider.ts: kullanıcı doğrulanmış token + veritabanından"
+      - "apps/api/test/account.e2e-spec.ts: isAdmin, targetLanguage gibi alanlar 400"
+  ARC-03:
+    status: to_verify
+    note: "Akış bazlı kısa tehdit modeli docs/08-guvenlik.md içinde; admin ve dağıtımla genişletilecek."
+  ARC-04:
+    status: to_verify
+    note: "Tek servis. Veritabanı rolleri (çalışma ve göç) dağıtımda ayrılacak: DAT-04."
+  ARC-05:
+    status: pass
+    evidence:
+      - "apps/api/src/ai/anthropic-providers.spec.ts: ret ve ağ hatası ayrı ele alınır"
+      - "apps/api/test/lessons.e2e-spec.ts: AI hatasında öğrenci cevabı geri alınır, bütçe dolunca çağrı yapılmaz"
+    note: "Yeniden deneme 1-2 ile sınırlı, zaman aşımları 20-60 sn. Alarm bağlantısı LOG-04 ile."
+
+  # 7.2 Girdi
+  INP-01:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: bilinmeyen sorgu parametresi 400"
+      - "apps/api/test/account.e2e-spec.ts: fazladan alan 400"
+  INP-02:
+    status: pass
+    evidence:
+      - "Kod incelemesi: bütün sorgular Drizzle parametreli; sql.raw yalnızca schema.ts içinde sabit listelerle"
+  INP-03:
+    status: to_verify
+    note: "API yalnızca JSON döner. Öğrenci metni ve AI çıktısı admin panelinde ve mobilde metin olarak gösterilmeli."
+  INP-04:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: 200 KB JSON 413, bozuk JSON 400"
+      - "apps/api/src/common/audio-upload.ts: multipart sınırları (1 dosya, 3 MB, 6 parça)"
+  INP-05:
+    status: not_applicable
+    justification: "İçe veya dışa aktarım yok."
+
+  # 7.3 İş mantığı
+  BUS-01:
+    status: pass
+    evidence:
+      - "apps/api/test/lessons.e2e-spec.ts: yeniden söylemeden tamamlanmaz, 10 dakika, tek takip sorusu"
+  BUS-02:
+    status: pass
+    evidence:
+      - "apps/api/test/lessons.e2e-spec.ts: iki finish aynı anda, çift dokunuş"
+      - "apps/api/test/account.e2e-spec.ts: yenileme tokenı tek kullanım"
+  BUS-03:
+    status: to_verify
+    note: "finish tekrarında aynı düzeltme döner; cevap ve yeniden söyleme için idempotency anahtarı yok, çift istek 409."
+  BUS-04:
+    status: not_applicable
+    justification: "Toplu işlem ucu yok."
+  BUS-05:
+    status: not_applicable
+    justification: "Kuyruk veya worker yok; değerlendirme isteğin içinde çalışır."
+
+  # 7.4 Web
+  WEB-01:
+    status: not_applicable
+    justification: "Bu build'de tarayıcıda çalışan arayüz yok. Admin paneliyle yeniden değerlendirilecek."
+  WEB-02:
+    status: not_applicable
+    justification: "HTML sunulmuyor. Admin paneliyle."
+  WEB-03:
+    status: not_applicable
+    justification: "Çerez yok; kimlik yalnızca Authorization başlığında."
+  WEB-04:
+    status: pass
+    evidence:
+      - "apps/api/test/app.e2e-spec.ts: güvenlik başlıkları, X-Powered-By yok"
+  WEB-05:
+    status: to_verify
+    note: "Mobil: yenileme tokenı güvenli depoda (expo-secure-store) tutulacak."
+
+  # 7.5 API
+  API-01:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: sunulan uçlar docs/03-mimari.md tablosuyla aynı; açık olmayan her uç tokensız 401"
+  API-02:
+    status: pass
+    evidence:
+      - "apps/api/src/lessons/lessons.service.ts: lessonView, turnView, correctionView alan seçer"
+      - "apps/api/test/lessons.e2e-spec.ts: transfer sorusu önceki cevap olmadan döner"
+  API-03:
+    status: to_verify
+    note: "Host başlığına dayalı bağlantı üretilmiyor; vekil tarafı Host izin listesi dağıtımda."
+  API-04:
+    status: not_applicable
+    justification: "WebSocket veya SSE yok."
+  API-05:
+    status: pass
+    evidence:
+      - "apps/api/src/lessons/lessons.service.ts: liste 50 ders; reviews.service.ts: 200 ifade"
+
+  # 7.6 Dosya
+  FIL-01:
+    status: pass
+    evidence:
+      - "apps/api/src/common/audio-upload.spec.ts: tür ve içerik imzası birlikte"
+      - "apps/api/test/lessons.e2e-spec.ts: ses olmayan dosya reddedilir; kayıt saklanmaz"
+  FIL-02:
+    status: not_applicable
+    justification: "Ses sunucuda ayrıştırılmaz veya önizlenmez; bellekte bir kez döküme gider."
+  FIL-03:
+    status: not_applicable
+    justification: "Arşiv kabul edilmez."
+  FIL-04:
+    status: not_applicable
+    justification: "İndirme ucu yok; seslendirme yanıtın içinde döner, saklanmaz."
+  FIL-05:
+    status: not_applicable
+    justification: "Dosya saklanmadığı için tarama akışı yok."
+
+  # 7.7 Kimlik doğrulama
+  AUT-01:
+    status: to_verify
+    note: "Admin girişi admin paneliyle, MFA ilk günden (PKY-01 ile)."
+  AUT-02:
+    status: pass
+    evidence:
+      - "apps/api/test/throttle.e2e-spec.ts: adres başına saatte 10 hesap, sonra 429; XFF yok sayılır"
+    note: "Parola yok; tahmin edilecek sır 256 bit tokenlar. Yenileme dakikada 30."
+  AUT-03:
+    status: not_applicable
+    justification: "Parola sıfırlama veya davet tokenı yok."
+  AUT-04:
+    status: not_applicable
+    justification: "Uygulama kullanıcısı için MFA yok (anonim hesap)."
+  AUT-05:
+    status: not_applicable
+    justification: "CAPTCHA yok."
+
+  # 7.8 Oturum
+  SES-01:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: sorgu dizesindeki token kabul edilmez"
+  SES-02:
+    status: not_applicable
+    justification: "Giriş veya yetki yükseltme yok; anonim hesapların rolü yok. Admin paneliyle yeniden."
+  SES-03:
+    status: risk_accepted
+    owner: "ürün sahibi"
+    expiry: 2027-06-30
+    compensating: "Anonim hesabın geri dönüş yolu yok: yenileme 365 gün, aile 10 yıl. Her yenileme tek kullanım, tekrar kullanımda aile iptali ve alarm, erişim tokenı 15 dk, hesap silme her şeyi iptal eder. Apple/Google ile giriş eklenince kısaltılacak."
+  SES-04:
+    status: pass
+    evidence:
+      - "apps/api/test/account.e2e-spec.ts: hesap silinince erişim ve yenileme tokenı hemen 401"
+    note: "Çıkışta erişim tokenı en fazla 15 dakika yaşar (politika)."
+  SES-05:
+    status: pass
+    evidence:
+      - "apps/api/test/account.e2e-spec.ts: tekrar kullanılan token aileyi iptal eder"
+      - "apps/api/test/security.e2e-spec.ts: auth.refresh_reused alarm olayı"
+    note: "Mobil istemci yenilemeyi tek uçuşta yapmalı (aynı anda iki yenileme yok)."
+
+  # 7.9 Yetkilendirme
+  AZ-01:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: başka kullanıcının tekrar kaydı, dersi ve bildirimi 404, veri değişmez"
+      - "apps/api/test/lessons.e2e-spec.ts: başka kullanıcının dersi 404"
+  AZ-02:
+    status: pass
+    build: "git:595ad9c"
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: aynı satır sahibi için eklenir, başka kullanıcı için veritabanı reddeder"
+      - "apps/api/drizzle/20261121074738_same_user_keys/migration.sql: (id, user_id) bileşik yabancı anahtarlar"
+    note: "RLS kullanılmıyor; sorgu katmanında userId filtresi, veri katmanında bileşik anahtarlar. Admin API'si RLS gerektirirse yeniden."
+  AZ-03:
+    status: not_applicable
+    justification: "Önbellek, arama, dashboard veya export yok. Admin dashboard'u ile yeniden."
+  AZ-04:
+    status: pass
+    evidence:
+      - "apps/api/src/reports/reports.controller.ts: koç satırı dersin, ders kullanıcının olmalı"
+      - "apps/api/test/security.e2e-spec.ts"
+  AZ-05:
+    status: to_verify
+    note: "Admin rolleri admin API'siyle."
+
+  # 7.10 Token
+  TOK-01:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: elle imzalanmış doğru token 200; yanlış typ, alg, none, iss, aud, süre, sub ve anahtar 401"
+  TOK-02:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: erişim tokenı yenilemede, yenileme tokenı Bearer olarak 401"
+  TOK-03:
+    status: not_applicable
+    justification: "OAuth/OIDC ile giriş yok."
+  TOK-04:
+    status: not_applicable
+    justification: "SAML yok."
+  TOK-05:
+    status: not_applicable
+    justification: "Federasyon yok."
+
+  # 7.11 Kriptografi ve sırlar
+  KEY-01:
+    status: pass
+    evidence:
+      - "apps/api/src/config/env.spec.ts: test sırrı, yer tutucu ve tekrarlı değer üretimde reddedilir"
+      - "Üretim profili smoke testi: zayıf sırla API başlamadı"
+  KEY-02:
+    status: to_verify
+    note: "Sırlar yalnızca apps/api/.env (git dışı), mobilde yok; git geçmişi taraması temiz (2026-11-21). Çalışma ortamına enjeksiyon dağıtımda."
+  KEY-03:
+    status: to_verify
+    note: "Runbook docs/08-guvenlik.md içinde; eski anahtarla imzalı tokenın reddi test edildi. Dağıtımda bir kez prova edilecek."
+  KEY-04:
+    status: to_verify
+    note: "Veritabanında durağan şifreleme barındırma sağlayıcısında."
+  KEY-05:
+    status: to_verify
+    note: "Anahtar envanteri docs/08-guvenlik.md içinde; sahip ve rotasyon tarihi dağıtımda."
+
+  # 7.12 Ağ
+  NET-01:
+    status: to_verify
+    note: "Uygulama tarafı tamam: üretimde veritabanı TLS zorunlu (env.spec.ts), SDK'lar HTTPS. Dış uçtaki TLS dağıtımda."
+  NET-02:
+    status: to_verify
+    note: "Dağıtımda."
+  NET-03:
+    status: pass
+    evidence:
+      - "apps/api/test/throttle.e2e-spec.ts: istemcinin gönderdiği X-Forwarded-For yok sayılır"
+  NET-04:
+    status: to_verify
+    note: "Çıkış izin listesi dağıtımda (docs/08-guvenlik.md)."
+  NET-05:
+    status: not_applicable
+    justification: "CORS kapalı, tarayıcı istemcisi yok. Admin paneliyle tek origin listesi."
+
+  # 7.13 Yapılandırma ve dağıtım
+  OPS-01:
+    status: pass
+    evidence:
+      - "apps/api/src/config/env.spec.ts: üretimde sahte AI, PGlite, TLS'siz veritabanı, zayıf sır ve fiyatsız model reddedilir"
+      - "apps/api/test/app.e2e-spec.ts: /health bağımlılık ayrıntısı vermez"
+      - "apps/api/test/security.e2e-spec.ts: belgede olmayan uç yok"
+  OPS-02:
+    status: to_verify
+    note: "Dağıtımda."
+  OPS-03:
+    status: to_verify
+    note: "Container tanımı dağıtımla (root olmayan kullanıcı, salt okunur dosya sistemi)."
+  OPS-04:
+    status: to_verify
+    note: "Kilit dosyası, npm ci, üretim audit kapısı, SHA ile sabit action'lar ve SBOM (CI artefaktı) var. İmzalı yayın artefaktı dağıtımla."
+  OPS-05:
+    status: to_verify
+    note: "CI kapısı var (audit, lint, tip, test, e2e); istisna süreci yazılmadı."
+
+  # 7.14 Veri
+  DAT-01:
+    status: to_verify
+    note: "Ses saklanmaz, yalnızca döküm. Veri sınıflandırma tablosu yayın öncesi docs/06 ile."
+  DAT-02:
+    status: not_applicable
+    justification: "Export ve geçici dosya yok."
+  DAT-03:
+    status: to_verify
+    note: "Mobil istemcide izler (önbellek, ekran görüntüsü) mobil aşamada."
+  DAT-04:
+    status: to_verify
+    note: "Rol SQL'i docs/08-guvenlik.md içinde; dağıtımda uygulanacak."
+  DAT-05:
+    status: to_verify
+    note: "Hesap silme her şeyi siler (account.e2e-spec.ts); yedek saklama süresi dağıtımda."
+
+  # 7.15 Günlükleme
+  LOG-01:
+    status: pass
+    evidence:
+      - "apps/api/test/security.e2e-spec.ts: X-Request-Id ve requestId'li alarm olayı"
+      - "Üretim profili smoke testi: JSON SecurityEvent satırı (ip ve peer ayrı)"
+  LOG-02:
+    status: pass
+    evidence:
+      - "apps/api/src/security/api-exception.filter.spec.ts: sorgu değerleri ve mesaj loglanmaz"
+      - "apps/api/test/security.e2e-spec.ts: yenileme tokenı log'da yok"
+  LOG-03:
+    status: to_verify
+    note: "Log platformu dağıtımda."
+  LOG-04:
+    status: to_verify
+    note: "Alarm kuralları (auth.refresh_reused, ai_budget.global_limit) log platformunda yazılıp denenecek."
+  LOG-05:
+    status: to_verify
+    note: "Dağıtımda."
+
+  # 7.16 Dış entegrasyonlar
+  EXT-01:
+    status: not_applicable
+    justification: "Kullanıcının verdiği URL'ye istek yapılmaz; dış hedefler SDK'larda sabit."
+  EXT-02:
+    status: not_applicable
+    justification: "EXT-01 ile aynı."
+  EXT-03:
+    status: pass
+    evidence:
+      - "apps/api/src/ai/ai.module.ts, openai-providers.ts, anthropic-providers.ts: zaman aşımı ve sınırlı yeniden deneme; her sağlayıcının ayrı anahtarı"
+  EXT-04:
+    status: pass
+    evidence:
+      - "apps/api/test/account.e2e-spec.ts: imzasız Apple ve sahte Google bildirimi 401"
+      - "apps/api/test/subscriptions.e2e-spec.ts: bildirim yalnızca mağazadan taze okumayı tetikler"
+    note: "Tekrar gönderilen bildirim mağazanın güncel durumunu yeniden yazar, başka etkisi yok."
+  EXT-05:
+    status: to_verify
+    note: "Apple In-App Purchase anahtarı ve Google servis hesabı en az yetkiyle (docs/08-guvenlik.md); mağaza konsollarında kurulacak."
+  EXT-06:
+    status: not_applicable
+    justification: "Yönlendirme izlenmez."
+
+  # 7.17 Kaynak tüketimi
+  RES-01:
+    status: pass
+    evidence:
+      - "apps/api/test/lessons.e2e-spec.ts: kullanıcı bütçesi dolunca 429, diğer kullanıcılar etkilenmez"
+      - "apps/api/test/security.e2e-spec.ts: silinen hesabın harcaması genel bütçede kalır"
+      - "apps/api/test/throttle.e2e-spec.ts"
+  RES-02:
+    status: pass
+    evidence:
+      - "Liste uçları sınırlı (API-05); ses 3 MB, metin 1000 karakter"
+  RES-03:
+    status: not_applicable
+    justification: "Worker yok."
+  RES-04:
+    status: pass
+    evidence:
+      - "apps/api/src/ai/ai.module.ts: maxRetries 2; değerlendirici 1; her çağrı ai_spend'e yazılır"
+  RES-05:
+    status: to_verify
+    note: "Kapasite testi yayın öncesi."
+
+  # 7.18 Parola
+  PWD-01:
+    status: not_applicable
+    justification: "Parola yok. Admin girişi parola kullanırsa yeniden."
+  PWD-02:
+    status: not_applicable
+    justification: "Parola yok."
+  PWD-03:
+    status: not_applicable
+    justification: "Parola yok."
+  PWD-04:
+    status: not_applicable
+    justification: "Parola yok."
+  PWD-05:
+    status: not_applicable
+    justification: "Parola yok."
+
+  # Ek bölümler
+  DSY-01:
+    status: to_verify
+    note: "Vekil ve uygulama arasında istek sınırı dağıtımda."
+  DSY-02:
+    status: not_applicable
+    justification: "Önbellek yok; kişisel yanıtlar önbelleğe girmemeli (dağıtımda Cache-Control kontrolü)."
+  PRS-01:
+    status: not_applicable
+    justification: "E-posta veya kullanıcı adı yok."
+  PRS-02:
+    status: to_verify
+    note: "Vekil seçilince."
+  PRS-03:
+    status: not_applicable
+    justification: "İstemci filtre veya sorgu nesnesi göndermez; sorgular sabit."
+  MAIL-01:
+    status: not_applicable
+    justification: "E-posta gönderilmez."
+  MAIL-02:
+    status: not_applicable
+    justification: "E-posta gönderilmez."
+  CLI-01:
+    status: not_applicable
+    justification: "Web sayfası yok. Admin paneliyle."
+  CLI-02:
+    status: not_applicable
+    justification: "Web sayfası yok. Admin paneliyle."
+  GQL-01:
+    status: not_applicable
+    justification: "GraphQL yok."
+  PKY-01:
+    status: to_verify
+    note: "Admin girişiyle."
+  EXC-01:
+    status: pass
+    evidence:
+      - "apps/api/src/security/api-exception.filter.spec.ts: beklenmeyen hata yalın 500"
+      - "apps/api/src/config/env.spec.ts: eksik veya hatalı ayarla başlamaz"
+  AI-01:
+    status: pass
+    evidence:
+      - "apps/api/src/ai/anthropic-providers.spec.ts: öğrencinin talimatı sistem isteminde değil, yalnızca kullanıcı mesajında"
+    note: "Modelin aracı yok; durumu akış belirler, model değil."
+  AI-02:
+    status: pass
+    evidence:
+      - "apps/api/src/ai/guards.spec.ts: uydurma sayı, parça cümle, uzun açıklama reddi"
+      - "apps/api/src/ai/anthropic-providers.spec.ts: çok uzun koç satırı ve geri bildirim reddi"
+    note: "RAG yok. Çıktı şemayla doğrulanır ve JSON olarak döner."
+  ASM-01:
+    status: to_verify
+    note: "Alan adı seçilince."
+  VDP-01:
+    status: to_verify
+    note: "security.txt ve bildirim süreci yayın öncesi (red-team/templates/security.txt)."
