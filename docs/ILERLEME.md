@@ -4,6 +4,8 @@ Her çalışma oturumunun sonunda tarihli tek satır ekle: ne bitti, sırada ne 
 
 ## 2026-11-21
 
+- Admin paneline başlanacaktı, kullanıcının isteğiyle başlamadan durduruldu. Kararlar ve adımlar
+  `docs/ADMIN-PLANI.md` içinde (shadcn/ui, Next.js 16, MFA zorunlu, CLI ile admin yönetimi). Kod yok.
 - AI kalite testlerinin çalıştırıcısı yazıldı (`npm run eval`, `--live` ile gerçek modeller). On testi
   `evals/golden` anahtarlarına göre ölçüyor, değerlendirici derslerdeki yolun aynısından geçiyor.
   Takip sorusu (20) ve rolde kalma (15) için taslak setler eklendi. Testler: 63 birim, 46 e2e.
