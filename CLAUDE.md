@@ -33,11 +33,11 @@ Bu dosya Claude Code içindir. Ürünün tamamı `docs/` altında anlatılır; �
 ## Klasör yapısı
 
 ```
-apps/api       NestJS API (ESM, Vitest, oxlint). Kurallar: apps/api/AGENTS.md
+apps/api       NestJS API (ESM, Vitest, oxlint, Drizzle). Kurallar: apps/api/AGENTS.md
 apps/mobile    Expo uygulaması (Expo Router, TypeScript). Kurallar: apps/mobile/AGENTS.md
 content/       Senaryolar ve hata kategorileri (tek doğruluk kaynağı; API buradan okur)
-prompts/       Koç ve değerlendirici istemleri
-db/            PostgreSQL şeması (hedef tasarım; henüz API'ye bağlı değil)
+prompts/       Koç, değerlendirici ve transfer değerlendirme istemleri
+db/            Yerel PostgreSQL verisi (şema apps/api/src/database, göçler apps/api/drizzle)
 evals/         AI kalite testleri için cevap anahtarları
 docs/          Ürün, mimari, yol haritası, yayın ve hukuk notları
 ```
@@ -52,6 +52,8 @@ npm test               # birim testleri (Vitest)
 npm run test:e2e       # uçtan uca testler
 npm run lint
 npm run build
+npm run db:generate    # şema değişince göç üret
+npm run db:migrate     # göçleri DATABASE_URL'e uygula
 
 # Mobil (apps/mobile)
 npm install
@@ -89,8 +91,11 @@ Expo eklentisi için Claude Code'da `/plugin` ile `expo@claude-plugins-official`
 ## Şu anki durum
 
 Uygulamanın adı **Say Again**; repo https://github.com/metinemredonmez/Say-Again- (CI: GitHub
-Actions, yalnızca API). API'de `GET /health` ve `GET /scenarios` hazır; güvenlik temeli (başlıklar,
-hız sınırı, açılışta içerik doğrulaması) kurulu. `apps/mobile` hâlâ Expo şablonudur. AI katmanı
-ayrı servis değil, API içinde `apps/api/src/ai` modülü olacak; admin paneli Aşama 3'te Next.js ile
-gelecek (`docs/KARARLAR.md`). Sıradaki iş Aşama 1'in kalanı: ders akışı sahte AI ile. Görev listesi
-`docs/04-yol-haritasi.md` içinde.
+Actions, yalnızca API). Node.js 22+ gerekir (`.nvmrc`).
+
+Backend ve AI katmanı tamam (API): anonim cihaz hesabı ve tokenlar, ders akışı, Claude koç
+(Haiku 5.5) ve değerlendirici (Opus 5.5), OpenAI ses, tekrar ve transfer, Bugün, Defter, kota,
+Apple ve Google abonelik doğrulaması, bildirimler, hesap silme. Gerçek anahtarlarla ve mağaza
+hesaplarıyla henüz denenmedi. `apps/mobile` hâlâ Expo şablonudur; admin paneli için kullanıcı bir
+şablon verecek, admin API'si onunla yazılacak (`docs/KARARLAR.md`). Açık risk: OpenAI seslendirme
+modelleri 2027-01-06'da kapanıyor. Görev listesi `docs/04-yol-haritasi.md` içinde.

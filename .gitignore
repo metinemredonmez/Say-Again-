@@ -24,3 +24,6 @@ db/data/
 
 # TypeScript incremental build info
 *.tsbuildinfo
+
+# Local PGlite data (DATABASE_URL=pglite:./.data/pglite)
+.data/

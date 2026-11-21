@@ -8,5 +8,14 @@ export default defineConfig({
     globals: true,
     root: './',
     include: ['**/*.spec.ts'],
+    // Test-only settings: in-process PostgreSQL, mock AI, a throwaway signing secret.
+    env: {
+      NODE_ENV: 'test',
+      DATABASE_URL: 'pglite:memory',
+      JWT_SECRET: 'test-only-jwt-secret-of-at-least-32-bytes',
+      AI_PROVIDER: 'mock',
+      SUBSCRIPTION_PRODUCT_IDS: 'say_again_monthly',
+    },
+
   },
 });

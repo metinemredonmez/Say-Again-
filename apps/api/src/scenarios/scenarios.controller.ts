@@ -1,7 +1,12 @@
 import { Controller, Get, Param, Query } from '@nestjs/common';
+import { Public } from '@nestjs/authentication';
 import { z } from 'zod';
 import { scenarioIdSchema } from './scenario-content.js';
-import { ScenariosService, type ScenarioDetail, type ScenarioSummary } from './scenarios.service.js';
+import {
+  ScenariosService,
+  type ScenarioDetail,
+  type ScenarioSummary,
+} from './scenarios.service.js';
 
 const listScenariosQuerySchema = z.object({
   pack: scenarioIdSchema.optional(),
@@ -9,12 +14,16 @@ const listScenariosQuerySchema = z.object({
 
 type ListScenariosQuery = z.infer<typeof listScenariosQuerySchema>;
 
+// The catalogue is public: the app shows it before the first lesson.
+@Public()
 @Controller('scenarios')
 export class ScenariosController {
   constructor(private readonly scenarios: ScenariosService) {}
 
   @Get()
-  list(@Query({ schema: listScenariosQuerySchema }) query: ListScenariosQuery): { scenarios: ScenarioSummary[] } {
+  list(
+    @Query({ schema: listScenariosQuerySchema }) query: ListScenariosQuery,
+  ): { scenarios: ScenarioSummary[] } {
     return { scenarios: this.scenarios.list(query.pack) };
   }
 

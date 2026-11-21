@@ -32,6 +32,12 @@ Kaynaklar:
   dışı aktarım kuralları devreye girer; aydınlatma metni ve açık rıza akışı gerekir.
 - **Sağlayıcı şartları.** API üzerinden giden verinin model eğitiminde kullanılıp kullanılmadığını
   seçtiğin sağlayıcının güncel şartlarından doğrula ve gizlilik politikana yaz.
+- **Sağlayıcıların şu anki şartları (2026-11-20'de bakıldı).** OpenAI API verisini varsayılan olarak
+  eğitimde kullanmıyor; döküm ucu veri saklamıyor, seslendirme ucu kötüye kullanım denetimi için 30
+  gün saklıyor (https://developers.openai.com/api/docs/guides/your-data). Anthropic'in şartları da
+  gizlilik politikasına yazılmadan önce doğrulanmalı.
+- **Seslendirme yapay zekâ ile.** OpenAI kullanım politikası, sesin yapay zekâ ile üretildiğini
+  kullanıcıya açıkça söylemeyi istiyor: Prova ekranında ve gizlilik politikasında belirt.
 - **Yaş sınırı.** İlk sürüm yalnızca 18 yaş üstü.
 - **Gerekli sayfalar.** Gizlilik politikası, kullanım şartları, abonelik iptal ve iade koşulları.
 

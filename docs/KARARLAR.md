@@ -5,6 +5,41 @@ seçenek.
 
 ## 2026-11-20
 
+- **Bağımsız güvenlik ve doğruluk incelemesinden sonra (aynı gün).** Düzeltilenler: günlük sınır ders
+  sayısına değil gerçek AI harcamasına bağlı (kullanıcı başına 1,5 $, toplam 100 $; boş ders
+  başlatmak kimseyi kilitlemez); satın alma, mağazanın kanıtıyla (Apple'da cihazda imzalı işlem,
+  Google'da satın alma tokenı) yeni hesaba taşınabiliyor, yeniden abonelik o hesaba geçiyor;
+  değerlendirme bir talep tokenıyla korunuyor; aynı anda iki cevap kilitle engelleniyor; senaryosu
+  silinmiş ders kullanıcıyı kilitlemiyor; düzeltme denetimi bütün cümle ve yazıyla sayıları da
+  arıyor; transfer açıkken o ifadenin tekrarı gösterilmiyor; ipuçları herkese açık senaryo
+  detayından çıktı; yeniden söyleme düzeltilen cümleyle ortak bir kelime istiyor.
+  **Kabul edilen riskler (Aşama 5'ten önce ele alınacak):**
+  - Ücretsiz dersler kuruluma bağlı: uygulamayı silip yükleyen yine üç ders alır. Çözüm App
+    Attest / Play Integrity.
+  - Yenileme cevabı ağda kaybolursa token ailesi iptal olur ve anonim hesap kaybolur. Mobilde
+    yenileme tek seferde bir kez yapılmalı; mağaza sürümünden önce Apple/Google ile giriş ya da
+    kurtarma kodu eklenmeli.
+  - Sandbox satın almaları da erişim açar: yalnızca TestFlight testçileri ve App Review sandbox
+    kullanabildiği için bilerek bırakıldı.
+- **Backend ve AI katmanı tamamlandı (API).** Kimlik: anonim cihaz hesabı, `@nestjs/authentication`
+  ile 15 dakikalık JWT ve tek kullanımlık, dönen yenileme tokenı (yeniden kullanılırsa aile iptal).
+  Anonim hesabın başka giriş yolu olmadığı için yenileme ailesi uzun yaşar (token 1 yıl, aile 10
+  yıl). Vazgeçilen: cihaz kimliğini tek başına kimlik saymak.
+- **Koç Claude Haiku 5.5, değerlendirici Claude Opus 5.5.** Resmî Anthropic SDK (`@anthropic-ai/sdk`),
+  `@nestjs/ai` değil: Claude çağrıları resmî SDK ile yapılır. Modeller `.env` ile değişir.
+- **Ses OpenAI ile: döküm `gpt-transcribe`, seslendirme `gpt-4o-mini-tts`.** Risk: OpenAI bütün
+  `/v1/audio/speech` modellerini 2027-01-06'da kapatıyor; yerine yalnızca Realtime API'deki
+  `gpt-realtime-2.1-mini` var. Pilot (Aşama 4) bu tarihe denk geldiği için seslendirme sağlayıcısı
+  pilottan önce değişmeli: Realtime API, başka bir sağlayıcı ya da telefondaki yerleşik ses
+  (`expo-speech`). `TextToSpeech` arayüzü sayesinde değişiklik tek sınıf.
+- **Abonelik mağazalarla doğrudan doğrulanır** (`@apple/app-store-server-library`,
+  `@googleapis/androidpublisher`). Satın almayı hesaba bağlamak için uygulama kullanıcı kimliğini
+  Apple'da `appAccountToken`, Google'da `obfuscatedAccountId` olarak geçer. Vazgeçilen: RevenueCat.
+- **Admin API admin şablonu gelince yazılacak.** Bildirimler (`ai_reports`) ve maliyet alanları
+  şimdiden kaydediliyor.
+- **Node.js 22 ve üstü.** OpenAI ve Google paketleri Node 22 istiyor; Node 20'nin desteği bitti.
+  Kök klasörde `.nvmrc` var (`nvm use`).
+- **Testler PGlite (süreç içi PostgreSQL) üzerinde,** CI ayrıca gerçek PostgreSQL'de çalıştırır.
 - **Ad: Say Again.** Repo: https://github.com/metinemredonmez/Say-Again- (şu an herkese açık). Neden:
   uygulamanın ana kuralını anlatıyor (düzeltmeyi al, aynı fikri yeniden söyle), yeni başlayan biri
   iki kelimeyi de bilir ve ad tek bir dile bağlı değil. Vazgeçilen: Prova, Out Loud, Warm Up.

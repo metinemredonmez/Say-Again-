@@ -1,11 +1,17 @@
-import { BadRequestException, Inject, Injectable, NotFoundException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  NotFoundException,
+} from '@nestjs/common';
 import type { Scenario, ScenarioContent } from './scenario-content.js';
 
 export const SCENARIO_CONTENT = Symbol('SCENARIO_CONTENT');
 
 // Public views are built field by field (API-02), so a new content field is never exposed by
 // accident. coachRole and followUp are coach prompt material. transfer is never sent here: the
-// transfer question must stay unseen until it is asked three days later.
+// transfer question must stay unseen until it is asked three days later. Hints come with the
+// lesson (easy mode) and with the transfer hint call, which records that they were used.
 export interface ScenarioSummary {
   id: string;
   pack: string;
@@ -20,7 +26,6 @@ export interface ScenarioSummary {
 export interface ScenarioDetail extends ScenarioSummary {
   skillEn: string;
   opening: string;
-  hints: string[];
 }
 
 function toSummary(s: Scenario): ScenarioSummary {
@@ -37,7 +42,11 @@ function toSummary(s: Scenario): ScenarioSummary {
 }
 
 function toDetail(s: Scenario): ScenarioDetail {
-  return { ...toSummary(s), skillEn: s.skillEn, opening: s.opening, hints: [...s.hints] };
+  return {
+    ...toSummary(s),
+    skillEn: s.skillEn,
+    opening: s.opening,
+  };
 }
 
 @Injectable()
@@ -45,7 +54,9 @@ export class ScenariosService {
   private readonly byId: Map<string, Scenario>;
   private readonly packIds: Set<string>;
 
-  constructor(@Inject(SCENARIO_CONTENT) private readonly content: ScenarioContent) {
+  constructor(
+    @Inject(SCENARIO_CONTENT) private readonly content: ScenarioContent,
+  ) {
     this.byId = new Map(content.scenarios.map((s) => [s.id, s]));
     this.packIds = new Set(content.packs.map((p) => p.id));
   }
@@ -54,7 +65,9 @@ export class ScenariosService {
     if (pack !== undefined && !this.packIds.has(pack)) {
       throw new BadRequestException('Unknown pack');
     }
-    return this.content.scenarios.filter((s) => pack === undefined || s.pack === pack).map(toSummary);
+    return this.content.scenarios
+      .filter((s) => pack === undefined || s.pack === pack)
+      .map(toSummary);
   }
 
   get(id: string): ScenarioDetail {

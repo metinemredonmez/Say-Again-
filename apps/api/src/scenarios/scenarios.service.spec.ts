@@ -1,11 +1,16 @@
 import { BadRequestException, NotFoundException } from '@nestjs/common';
-import { loadScenarioContent, scenarioContentPath } from './scenario-content.js';
+import {
+  loadScenarioContent,
+  scenarioContentPath,
+} from './scenario-content.js';
 import { ScenariosService } from './scenarios.service.js';
 
 const INTERNAL_FIELDS = ['transfer', 'coachRole', 'followUp'];
 
 describe('ScenariosService', () => {
-  const service = new ScenariosService(loadScenarioContent(scenarioContentPath()));
+  const service = new ScenariosService(
+    loadScenarioContent(scenarioContentPath()),
+  );
 
   it('lists every scenario without internal fields', () => {
     const list = service.list();
@@ -27,11 +32,12 @@ describe('ScenariosService', () => {
     expect(() => service.list('teacher')).toThrow(BadRequestException);
   });
 
-  it('returns one scenario with its opening and hints but not the transfer task', () => {
+  it('returns one scenario with its opening, without hints or the transfer task', () => {
     const detail = service.get('pro-interview-01');
-    expect(detail.opening).toBe('Thanks for joining. To start, could you tell me a little about yourself?');
-    expect(detail.hints.length).toBeGreaterThan(0);
-    for (const field of INTERNAL_FIELDS) {
+    expect(detail.opening).toBe(
+      'Thanks for joining. To start, could you tell me a little about yourself?',
+    );
+    for (const field of [...INTERNAL_FIELDS, 'hints']) {
       expect(detail).not.toHaveProperty(field);
     }
   });
@@ -41,6 +47,8 @@ describe('ScenariosService', () => {
   });
 
   it('keeps the full scenario available for server-side use', () => {
-    expect(service.findInternal('pro-interview-01')?.transfer.question).toBe('Nice to meet you! So, what do you do?');
+    expect(service.findInternal('pro-interview-01')?.transfer.question).toBe(
+      'Nice to meet you! So, what do you do?',
+    );
   });
 });

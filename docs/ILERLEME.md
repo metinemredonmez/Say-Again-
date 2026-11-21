@@ -4,6 +4,15 @@ Her çalışma oturumunun sonunda tarihli tek satır ekle: ne bitti, sırada ne 
 
 ## 2026-11-20
 
+- Backend ve AI katmanı yazıldı (API): anonim hesap ve tokenlar, ders akışı (başlat, cevap, tek
+  düzeltme, yeniden söyleme), Claude koç ve değerlendirici, OpenAI döküm ve seslendirme, sunucuda
+  düzeltme denetimi, tekrar kuyruğu ve transfer, Bugün, Defter, kota, Apple ve Google abonelik
+  doğrulaması ve bildirimleri, bildirim (rapor) ucu, hesap silme. PostgreSQL ve Drizzle göçleri.
+  Bağımsız incelemede çıkan 2 yüksek ve 3 orta bulgu düzeltildi (`docs/KARARLAR.md`). 42 birim ve 35
+  e2e testi geçiyor (e2e PGlite'ta ve yerel PostgreSQL 15'te); lint, tip denetimi, build temiz;
+  üretim bağımlılıklarında açık yok. Gerçek API anahtarlarıyla ve mağaza hesaplarıyla henüz denenmedi. Risk: OpenAI
+  seslendirme modelleri 2027-01-06'da kapanıyor. Sırada: admin ve mobil şablonları gelince admin
+  API'si ve mobil ekranlar; gerçek anahtarlarla ilk ders.
 - Ad **Say Again** oldu, kod GitHub'a gönderildi (https://github.com/metinemredonmez/Say-Again-,
   herkese açık). API'de `GET /health` (Terminus) ve `GET /scenarios`, `GET /scenarios/:id` yazıldı:
   içerik açılışta Zod ile doğrulanır, bozuksa API başlamaz; transfer sorusu istemciye gitmez.

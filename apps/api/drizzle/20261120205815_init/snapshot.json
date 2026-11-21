@@ -1,0 +1,2561 @@
+{
+  "type": "base",
+  "version": "10",
+  "dialect": "postgres",
+  "id": "36483e0d-7074-401a-9085-57e5a04abfd8",
+  "prevIds": [
+    "00000000-0000-0000-0000-000000000000"
+  ],
+  "footprints": [
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "ai_reports"
+      ],
+      "writes": [
+        "s|tbl|public.ai_reports",
+        "n|tbl|public.ai_reports",
+        "e|tbl|public.ai_reports",
+        "n|rel|public.ai_reports",
+        "n|type|public.ai_reports",
+        "n|rel|public.ai_reports_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "corrections"
+      ],
+      "writes": [
+        "s|tbl|public.corrections",
+        "n|tbl|public.corrections",
+        "e|tbl|public.corrections",
+        "n|rel|public.corrections",
+        "n|type|public.corrections",
+        "n|rel|public.corrections_pkey",
+        "n|rel|public.corrections_lesson_id_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "lessons"
+      ],
+      "writes": [
+        "s|tbl|public.lessons",
+        "n|tbl|public.lessons",
+        "e|tbl|public.lessons",
+        "n|rel|public.lessons",
+        "n|type|public.lessons",
+        "n|rel|public.lessons_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "phrases"
+      ],
+      "writes": [
+        "s|tbl|public.phrases",
+        "n|tbl|public.phrases",
+        "e|tbl|public.phrases",
+        "n|rel|public.phrases",
+        "n|type|public.phrases",
+        "n|rel|public.phrases_pkey",
+        "n|rel|public.phrases_lesson_id_key"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "refresh_tokens"
+      ],
+      "writes": [
+        "s|tbl|public.refresh_tokens",
+        "n|tbl|public.refresh_tokens",
+        "e|tbl|public.refresh_tokens",
+        "n|rel|public.refresh_tokens",
+        "n|type|public.refresh_tokens",
+        "n|rel|public.refresh_tokens_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "review_items"
+      ],
+      "writes": [
+        "s|tbl|public.review_items",
+        "n|tbl|public.review_items",
+        "e|tbl|public.review_items",
+        "n|rel|public.review_items",
+        "n|type|public.review_items",
+        "n|rel|public.review_items_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "subscriptions"
+      ],
+      "writes": [
+        "s|tbl|public.subscriptions",
+        "n|tbl|public.subscriptions",
+        "e|tbl|public.subscriptions",
+        "n|rel|public.subscriptions",
+        "n|type|public.subscriptions",
+        "n|rel|public.subscriptions_pkey",
+        "n|rel|public.subscriptions_store_ref_unique"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "turns"
+      ],
+      "writes": [
+        "s|tbl|public.turns",
+        "n|tbl|public.turns",
+        "e|tbl|public.turns",
+        "n|rel|public.turns",
+        "n|type|public.turns",
+        "n|rel|public.turns_pkey",
+        "n|rel|public.turns_lesson_position_unique"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "usage_months"
+      ],
+      "writes": [
+        "s|tbl|public.usage_months",
+        "n|tbl|public.usage_months",
+        "e|tbl|public.usage_months",
+        "n|rel|public.usage_months",
+        "n|type|public.usage_months",
+        "n|rel|public.usage_months_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_table",
+      "statementTarget": [
+        "table",
+        "public",
+        "users"
+      ],
+      "writes": [
+        "s|tbl|public.users",
+        "n|tbl|public.users",
+        "e|tbl|public.users",
+        "n|rel|public.users",
+        "n|type|public.users",
+        "n|rel|public.users_pkey"
+      ],
+      "reads": [
+        "n|sch|public"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "ai_reports",
+        "ai_reports_created_idx"
+      ],
+      "writes": [
+        "s|idx|public.ai_reports_created_idx",
+        "n|idx|public.ai_reports_created_idx",
+        "e|idx|public.ai_reports_created_idx",
+        "n|rel|public.ai_reports_created_idx"
+      ],
+      "reads": [
+        "n|tbl|public.ai_reports",
+        "n|sch|public",
+        "n|col|public.ai_reports.created_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "lessons",
+        "lessons_user_started_idx"
+      ],
+      "writes": [
+        "s|idx|public.lessons_user_started_idx",
+        "n|idx|public.lessons_user_started_idx",
+        "e|idx|public.lessons_user_started_idx",
+        "n|rel|public.lessons_user_started_idx"
+      ],
+      "reads": [
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.lessons.user_id",
+        "n|col|public.lessons.started_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "lessons",
+        "lessons_started_idx"
+      ],
+      "writes": [
+        "s|idx|public.lessons_started_idx",
+        "n|idx|public.lessons_started_idx",
+        "e|idx|public.lessons_started_idx",
+        "n|rel|public.lessons_started_idx"
+      ],
+      "reads": [
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.lessons.started_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "lessons",
+        "lessons_one_open_per_user"
+      ],
+      "writes": [
+        "s|idx|public.lessons_one_open_per_user",
+        "n|idx|public.lessons_one_open_per_user",
+        "e|idx|public.lessons_one_open_per_user",
+        "n|rel|public.lessons_one_open_per_user"
+      ],
+      "reads": [
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.lessons.user_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "phrases",
+        "phrases_user_idx"
+      ],
+      "writes": [
+        "s|idx|public.phrases_user_idx",
+        "n|idx|public.phrases_user_idx",
+        "e|idx|public.phrases_user_idx",
+        "n|rel|public.phrases_user_idx"
+      ],
+      "reads": [
+        "n|tbl|public.phrases",
+        "n|sch|public",
+        "n|col|public.phrases.user_id",
+        "n|col|public.phrases.created_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "refresh_tokens",
+        "refresh_tokens_family_id_idx"
+      ],
+      "writes": [
+        "s|idx|public.refresh_tokens_family_id_idx",
+        "n|idx|public.refresh_tokens_family_id_idx",
+        "e|idx|public.refresh_tokens_family_id_idx",
+        "n|rel|public.refresh_tokens_family_id_idx"
+      ],
+      "reads": [
+        "n|tbl|public.refresh_tokens",
+        "n|sch|public",
+        "n|col|public.refresh_tokens.family_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "refresh_tokens",
+        "refresh_tokens_user_id_idx"
+      ],
+      "writes": [
+        "s|idx|public.refresh_tokens_user_id_idx",
+        "n|idx|public.refresh_tokens_user_id_idx",
+        "e|idx|public.refresh_tokens_user_id_idx",
+        "n|rel|public.refresh_tokens_user_id_idx"
+      ],
+      "reads": [
+        "n|tbl|public.refresh_tokens",
+        "n|sch|public",
+        "n|col|public.refresh_tokens.user_id"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "refresh_tokens",
+        "refresh_tokens_family_expires_at_idx"
+      ],
+      "writes": [
+        "s|idx|public.refresh_tokens_family_expires_at_idx",
+        "n|idx|public.refresh_tokens_family_expires_at_idx",
+        "e|idx|public.refresh_tokens_family_expires_at_idx",
+        "n|rel|public.refresh_tokens_family_expires_at_idx"
+      ],
+      "reads": [
+        "n|tbl|public.refresh_tokens",
+        "n|sch|public",
+        "n|col|public.refresh_tokens.family_expires_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "review_items",
+        "review_items_due_idx"
+      ],
+      "writes": [
+        "s|idx|public.review_items_due_idx",
+        "n|idx|public.review_items_due_idx",
+        "e|idx|public.review_items_due_idx",
+        "n|rel|public.review_items_due_idx"
+      ],
+      "reads": [
+        "n|tbl|public.review_items",
+        "n|sch|public",
+        "n|col|public.review_items.user_id",
+        "n|col|public.review_items.due_at"
+      ]
+    },
+    {
+      "statementType": "create_index",
+      "statementTarget": [
+        "index",
+        "public",
+        "subscriptions",
+        "subscriptions_user_idx"
+      ],
+      "writes": [
+        "s|idx|public.subscriptions_user_idx",
+        "n|idx|public.subscriptions_user_idx",
+        "e|idx|public.subscriptions_user_idx",
+        "n|rel|public.subscriptions_user_idx"
+      ],
+      "reads": [
+        "n|tbl|public.subscriptions",
+        "n|sch|public",
+        "n|col|public.subscriptions.user_id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "ai_reports"
+      ],
+      "writes": [
+        "s|fk|public.ai_reports.ai_reports_user_id_users_id_fkey",
+        "n|fk|public.ai_reports.ai_reports_user_id_users_id_fkey",
+        "e|fk|public.ai_reports.ai_reports_user_id_users_id_fkey",
+        "n|con|public.ai_reports.ai_reports_user_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.ai_reports",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.ai_reports.user_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "ai_reports"
+      ],
+      "writes": [
+        "s|fk|public.ai_reports.ai_reports_lesson_id_lessons_id_fkey",
+        "n|fk|public.ai_reports.ai_reports_lesson_id_lessons_id_fkey",
+        "e|fk|public.ai_reports.ai_reports_lesson_id_lessons_id_fkey",
+        "n|con|public.ai_reports.ai_reports_lesson_id_lessons_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.ai_reports",
+        "n|sch|public",
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.ai_reports.lesson_id",
+        "n|col|public.lessons.id",
+        "e|uniqueness|public.lessons.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "ai_reports"
+      ],
+      "writes": [
+        "s|fk|public.ai_reports.ai_reports_turn_id_turns_id_fkey",
+        "n|fk|public.ai_reports.ai_reports_turn_id_turns_id_fkey",
+        "e|fk|public.ai_reports.ai_reports_turn_id_turns_id_fkey",
+        "n|con|public.ai_reports.ai_reports_turn_id_turns_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.ai_reports",
+        "n|sch|public",
+        "n|tbl|public.turns",
+        "n|sch|public",
+        "n|col|public.ai_reports.turn_id",
+        "n|col|public.turns.id",
+        "e|uniqueness|public.turns.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "corrections"
+      ],
+      "writes": [
+        "s|fk|public.corrections.corrections_lesson_id_lessons_id_fkey",
+        "n|fk|public.corrections.corrections_lesson_id_lessons_id_fkey",
+        "e|fk|public.corrections.corrections_lesson_id_lessons_id_fkey",
+        "n|con|public.corrections.corrections_lesson_id_lessons_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.corrections",
+        "n|sch|public",
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.corrections.lesson_id",
+        "n|col|public.lessons.id",
+        "e|uniqueness|public.lessons.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "lessons"
+      ],
+      "writes": [
+        "s|fk|public.lessons.lessons_user_id_users_id_fkey",
+        "n|fk|public.lessons.lessons_user_id_users_id_fkey",
+        "e|fk|public.lessons.lessons_user_id_users_id_fkey",
+        "n|con|public.lessons.lessons_user_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.lessons.user_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "phrases"
+      ],
+      "writes": [
+        "s|fk|public.phrases.phrases_user_id_users_id_fkey",
+        "n|fk|public.phrases.phrases_user_id_users_id_fkey",
+        "e|fk|public.phrases.phrases_user_id_users_id_fkey",
+        "n|con|public.phrases.phrases_user_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.phrases",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.phrases.user_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "phrases"
+      ],
+      "writes": [
+        "s|fk|public.phrases.phrases_lesson_id_lessons_id_fkey",
+        "n|fk|public.phrases.phrases_lesson_id_lessons_id_fkey",
+        "e|fk|public.phrases.phrases_lesson_id_lessons_id_fkey",
+        "n|con|public.phrases.phrases_lesson_id_lessons_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.phrases",
+        "n|sch|public",
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.phrases.lesson_id",
+        "n|col|public.lessons.id",
+        "e|uniqueness|public.lessons.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "review_items"
+      ],
+      "writes": [
+        "s|fk|public.review_items.review_items_user_id_users_id_fkey",
+        "n|fk|public.review_items.review_items_user_id_users_id_fkey",
+        "e|fk|public.review_items.review_items_user_id_users_id_fkey",
+        "n|con|public.review_items.review_items_user_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.review_items",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.review_items.user_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "review_items"
+      ],
+      "writes": [
+        "s|fk|public.review_items.review_items_phrase_id_phrases_id_fkey",
+        "n|fk|public.review_items.review_items_phrase_id_phrases_id_fkey",
+        "e|fk|public.review_items.review_items_phrase_id_phrases_id_fkey",
+        "n|con|public.review_items.review_items_phrase_id_phrases_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.review_items",
+        "n|sch|public",
+        "n|tbl|public.phrases",
+        "n|sch|public",
+        "n|col|public.review_items.phrase_id",
+        "n|col|public.phrases.id",
+        "e|uniqueness|public.phrases.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "subscriptions"
+      ],
+      "writes": [
+        "s|fk|public.subscriptions.subscriptions_user_id_users_id_fkey",
+        "n|fk|public.subscriptions.subscriptions_user_id_users_id_fkey",
+        "e|fk|public.subscriptions.subscriptions_user_id_users_id_fkey",
+        "n|con|public.subscriptions.subscriptions_user_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.subscriptions",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.subscriptions.user_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "turns"
+      ],
+      "writes": [
+        "s|fk|public.turns.turns_lesson_id_lessons_id_fkey",
+        "n|fk|public.turns.turns_lesson_id_lessons_id_fkey",
+        "e|fk|public.turns.turns_lesson_id_lessons_id_fkey",
+        "n|con|public.turns.turns_lesson_id_lessons_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.turns",
+        "n|sch|public",
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.turns.lesson_id",
+        "n|col|public.lessons.id",
+        "e|uniqueness|public.lessons.id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "usage_months"
+      ],
+      "writes": [
+        "s|fk|public.usage_months.usage_months_user_id_users_id_fkey",
+        "n|fk|public.usage_months.usage_months_user_id_users_id_fkey",
+        "e|fk|public.usage_months.usage_months_user_id_users_id_fkey",
+        "n|con|public.usage_months.usage_months_user_id_users_id_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.usage_months",
+        "n|sch|public",
+        "n|tbl|public.users",
+        "n|sch|public",
+        "n|col|public.usage_months.user_id",
+        "n|col|public.users.id",
+        "e|uniqueness|public.users.id"
+      ]
+    }
+  ],
+  "ddl": [
+    {
+      "schema": "public",
+      "name": "ai_reports",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "corrections",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "lessons",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "phrases",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "refresh_tokens",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "review_items",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "subscriptions",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "turns",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "usage_months",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "name": "users",
+      "isRlsEnabled": false,
+      "entityType": "tables"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "lesson_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "target",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "turn_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "reason",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "note",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "lesson_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "kind",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "original",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "improved",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "explanation_tr",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "category",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "resay_prompt_tr",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "resay_text",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "reported_wrong",
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "false",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "scenario_id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "difficulty",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "state",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'in_progress'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "started_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "evaluation_started_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "evaluated_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "completed_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "stt_ms",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "tts_chars",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "input_tokens",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "output_tokens",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "cost_micro_usd",
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "lesson_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "scenario_id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "text",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "family_id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "user_id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "expires_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "family_expires_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "used_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "revoked",
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "false",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "claims",
+      "type": "jsonb",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "phrase_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "kind",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "due_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "hint_used",
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "false",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "answer_text",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "cost_micro_usd",
+      "type": "bigint",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "done_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "outcome",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "store",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "store_ref",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "product_id",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "status",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "current_period_end",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "sandbox",
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "false",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "updated_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "lesson_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "position",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "speaker",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "coach_move",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "text",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "from_audio",
+      "type": "boolean",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "false",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "latency_ms",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "usage_months",
+      "name": "user_id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "usage_months",
+      "name": "month",
+      "type": "date",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "usage_months",
+      "name": "lessons_completed",
+      "type": "integer",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "0",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "id",
+      "type": "uuid",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "gen_random_uuid()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "level",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": false,
+      "dimensions": 0,
+      "default": null,
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "pack",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'professional'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "difficulty",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'easy'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "target_language",
+      "type": "text",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "'en'",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "created_at",
+      "type": "timestamp with time zone",
+      "typeSchema": null,
+      "notNull": true,
+      "dimensions": 0,
+      "default": "now()",
+      "generated": null,
+      "identity": null,
+      "entityType": "columns"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "ai_reports_created_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "created_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "lessons_user_started_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "started_at",
+          "isExpression": false,
+          "asc": false,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "lessons_started_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "started_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "lessons_one_open_per_user",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": true,
+      "where": "\"state\" in ('in_progress', 'evaluating', 'awaiting_resay')",
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "phrases_user_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "created_at",
+          "isExpression": false,
+          "asc": false,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "refresh_tokens_family_id_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "family_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "refresh_tokens_user_id_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "refresh_tokens_family_expires_at_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "family_expires_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "review_items_due_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        },
+        {
+          "value": "due_at",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": "\"done_at\" is null",
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "subscriptions_user_idx",
+      "nameExplicit": true,
+      "columns": [
+        {
+          "value": "user_id",
+          "isExpression": false,
+          "asc": true,
+          "nullsFirst": false,
+          "opclass": null
+        }
+      ],
+      "isUnique": false,
+      "where": null,
+      "with": "",
+      "method": "btree",
+      "entityType": "indexes"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "ai_reports_user_id_users_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "ai_reports_lesson_id_lessons_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "lesson_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "lessons",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "ai_reports_turn_id_turns_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "turn_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "turns",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "corrections_lesson_id_lessons_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "lesson_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "lessons",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "lessons_user_id_users_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "phrases_user_id_users_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "phrases_lesson_id_lessons_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "lesson_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "lessons",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "review_items_user_id_users_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "review_items_phrase_id_phrases_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "phrase_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "phrases",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "subscriptions_user_id_users_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "turns_lesson_id_lessons_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "lesson_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "lessons",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "usage_months",
+      "name": "usage_months_user_id_users_id_fkey",
+      "nameExplicit": false,
+      "columns": [
+        "user_id"
+      ],
+      "schemaTo": "public",
+      "tableTo": "users",
+      "columnsTo": [
+        "id"
+      ],
+      "onUpdate": "NO ACTION",
+      "onDelete": "CASCADE",
+      "entityType": "fks"
+    },
+    {
+      "schema": "public",
+      "table": "usage_months",
+      "name": "usage_months_pkey",
+      "columns": [
+        "user_id",
+        "month"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "ai_reports_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "corrections_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "lessons_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "phrases_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "refresh_tokens",
+      "name": "refresh_tokens_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "review_items_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "subscriptions_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "turns_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_pkey",
+      "columns": [
+        "id"
+      ],
+      "nameExplicit": false,
+      "entityType": "pks"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "subscriptions_store_ref_unique",
+      "nameExplicit": true,
+      "columns": [
+        "store",
+        "store_ref"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "turns_lesson_position_unique",
+      "nameExplicit": true,
+      "columns": [
+        "lesson_id",
+        "position"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "corrections_lesson_id_key",
+      "nameExplicit": false,
+      "columns": [
+        "lesson_id"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "phrases",
+      "name": "phrases_lesson_id_key",
+      "nameExplicit": false,
+      "columns": [
+        "lesson_id"
+      ],
+      "nullsNotDistinct": false,
+      "entityType": "uniques"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "ai_reports_target_check",
+      "value": "target in ('correction', 'coach_turn')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "ai_reports",
+      "name": "ai_reports_reason_check",
+      "value": "reason in ('wrong', 'inappropriate', 'other')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "corrections_kind_check",
+      "value": "kind in ('correction', 'polish')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "corrections",
+      "name": "corrections_category_check",
+      "value": "category in ('article', 'preposition', 'word-order', 'tense', 'plural-countable', 'agreement', 'word-choice', 'politeness', 'other')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "lessons_state_check",
+      "value": "state in ('in_progress', 'evaluating', 'awaiting_resay', 'completed', 'abandoned')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "lessons",
+      "name": "lessons_difficulty_check",
+      "value": "difficulty in ('easy', 'hard')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "review_items_kind_check",
+      "value": "kind in ('review', 'transfer')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "review_items",
+      "name": "review_items_outcome_check",
+      "value": "\"outcome\" is null or outcome in ('unaided', 'hinted', 'failed')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "subscriptions_store_check",
+      "value": "store in ('app_store', 'play_store')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "subscriptions",
+      "name": "subscriptions_status_check",
+      "value": "status in ('active', 'grace', 'expired', 'refunded', 'revoked')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "turns_speaker_check",
+      "value": "speaker in ('coach', 'learner')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "turns",
+      "name": "turns_coach_move_check",
+      "value": "\"coach_move\" is null or coach_move in ('opening', 'follow_up', 'hint', 'closing')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_level_check",
+      "value": "\"level\" is null or level in ('A2', 'B1', 'B2', 'C1')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_pack_check",
+      "value": "pack in ('professional', 'seller')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_difficulty_check",
+      "value": "difficulty in ('easy', 'hard')",
+      "entityType": "checks"
+    },
+    {
+      "schema": "public",
+      "table": "users",
+      "name": "users_target_language_check",
+      "value": "\"target_language\" ~ '^[a-z]{2}$'",
+      "entityType": "checks"
+    }
+  ]
+}

@@ -27,24 +27,25 @@ Geliştirme tarafı:
 
 - [ ] İki uygulamayı çalıştır: `apps/api` (`npm run start:dev`) ve `apps/mobile` (`npx expo start`)
 - [x] API: `GET /health` ve `GET /scenarios` (içerik `content/scenarios.json` içinden, açılışta doğrulanır)
-- [ ] API: ders akışı sahte AI ile (`POST /lessons`, `/turns`, `/finish`, `/resay`); birim ve e2e testleri
+- [x] API: ders akışı sahte AI ile (`POST /lessons`, `/turns`, `/finish`, `/resay`); birim ve e2e testleri
 - [ ] Mobil: Bugün ekranında senaryo listesi; Prova ekranı metinle uçtan uca çalışır
 - [ ] Mobil: bas-konuş ses kaydı ve API'ye yükleme
-- [ ] API: gerçek döküm, koç, değerlendirici ve seslendirme sağlayıcıları (iki seçeneği karşılaştır)
+- [x] API: gerçek döküm, koç, değerlendirici ve seslendirme sağlayıcıları kodlandı (Claude, OpenAI)
+- [ ] Gerçek anahtarlarla dene; ikinci bir ses sağlayıcısıyla karşılaştır (OpenAI seslendirmesi 2027-01-06'da kapanıyor)
 - [ ] Kendi telefonunda üç görevi sesli tamamla
 
 Kapı tutmazsa: kapsamı tek senaryoya indir.
 
 ## Aşama 2: Çekirdek döngü (hafta 2–4)
 
-- [ ] PostgreSQL bağlantısı ve `db/schema.sql` şemasının göçleri
-- [ ] Cihaz kimliği ile anonim kullanıcı
-- [ ] Kişisel ifadeler (Defter ekranı)
-- [ ] 1, 3 ve 7 günlük tekrar kuyruğu
-- [ ] Transfer sorusu: üç gün sonra, önceki cevap gösterilmeden; sonuç kaydı
-- [ ] Bugün ekranı: bekleyen transfer önce, sonra tekrarlar, sonra yeni prova
+- [x] PostgreSQL bağlantısı ve göçler (Drizzle, `apps/api/drizzle`)
+- [x] Anonim kullanıcı (API: `POST /auth/device`, dönen yenileme tokenı)
+- [ ] Kişisel ifadeler (Defter ekranı) — API hazır (`GET /phrases`), ekran yok
+- [x] 1, 3 ve 7 günlük tekrar kuyruğu (API)
+- [x] Transfer sorusu: üç gün sonra, önceki cevap gösterilmeden; sonuç kaydı (API)
+- [ ] Bugün ekranı: bekleyen transfer önce, sonra tekrarlar, sonra yeni prova — API hazır (`GET /today`), ekran yok
 - [ ] Günlük bildirim
-- [ ] Ders başına maliyet ve gecikme kaydı
+- [x] Ders başına maliyet ve gecikme kaydı (API)
 
 Kapı tutmazsa: tekrarı sadeleştir (yalnızca 3. gün).
 
@@ -53,7 +54,7 @@ Kapı tutmazsa: tekrarı sadeleştir (yalnızca 3. gün).
 - [ ] 20 senaryonun tamamı iki zorlukta denenir
 - [ ] Karşılama ekranı: seviye, paket, hedef
 - [ ] AI kalite testleri (`docs/05-ai-kalite-testleri.md`); cevap anahtarını bir İngilizce eğitmeni onaylar
-- [ ] "Bu düzeltme yanlış" bildirimi
+- [x] "Bu düzeltme yanlış" bildirimi (API: `POST /reports`)
 - [ ] Admin paneli (`apps/admin`, Next.js): admin girişi ve yetki (AUT, SES, AZ), bildirimler, ders
       maliyeti, elde tutma ve transfer sonuçları
 - [ ] EAS Build; TestFlight ve Play kapalı test kurulumu
@@ -73,10 +74,10 @@ Kapı tutmazsa: yayınlama. Bırakanlarla konuş, döngüyü düzelt, pilotu tek
 ## Aşama 5: Mağaza yayını (hafta 10–14)
 
 - [ ] Hesap ve giriş
-- [ ] Abonelik (mağaza içi satın alma), ayda 20 ders kotası, üç ücretsiz prova
-- [ ] Satın almayı geri yükleme
-- [ ] Hesabı ve verileri uygulama içinden silme
-- [ ] AI yanıtını bildirme
+- [ ] Abonelik (mağaza içi satın alma), ayda 20 ders kotası, üç ücretsiz prova — API hazır (Apple ve Google doğrudan), mağaza anahtarları ve mobil satın alma yok
+- [ ] Satın almayı geri yükleme — API hazır, mobil yok
+- [x] Hesabı ve verileri uygulama içinden silme (API: `DELETE /me`)
+- [x] AI yanıtını bildirme (API: `POST /reports`)
 - [ ] Mağaza sayfaları, ekran görüntüleri, veri beyanları
 - [ ] Başvurular; fiyat deneyi (449 TL, dönüşüm zayıfsa 299 TL)
 

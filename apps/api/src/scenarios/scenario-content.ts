@@ -51,7 +51,11 @@ export const scenarioContentSchema = z
     const packIds = new Set<string>();
     content.packs.forEach((pack, i) => {
       if (packIds.has(pack.id)) {
-        ctx.addIssue({ code: 'custom', path: ['packs', i, 'id'], message: `duplicate pack id "${pack.id}"` });
+        ctx.addIssue({
+          code: 'custom',
+          path: ['packs', i, 'id'],
+          message: `duplicate pack id "${pack.id}"`,
+        });
       }
       packIds.add(pack.id);
     });
@@ -59,16 +63,27 @@ export const scenarioContentSchema = z
     const scenarioIds = new Set<string>();
     content.scenarios.forEach((scenario, i) => {
       if (scenarioIds.has(scenario.id)) {
-        ctx.addIssue({ code: 'custom', path: ['scenarios', i, 'id'], message: `duplicate scenario id "${scenario.id}"` });
+        ctx.addIssue({
+          code: 'custom',
+          path: ['scenarios', i, 'id'],
+          message: `duplicate scenario id "${scenario.id}"`,
+        });
       }
       scenarioIds.add(scenario.id);
 
       if (!packIds.has(scenario.pack)) {
-        ctx.addIssue({ code: 'custom', path: ['scenarios', i, 'pack'], message: `unknown pack "${scenario.pack}"` });
+        ctx.addIssue({
+          code: 'custom',
+          path: ['scenarios', i, 'pack'],
+          message: `unknown pack "${scenario.pack}"`,
+        });
       }
 
       // Product rule: the transfer task asks a different question than the lesson.
-      if (scenario.transfer.question.toLowerCase() === scenario.opening.toLowerCase()) {
+      if (
+        scenario.transfer.question.toLowerCase() ===
+        scenario.opening.toLowerCase()
+      ) {
         ctx.addIssue({
           code: 'custom',
           path: ['scenarios', i, 'transfer', 'question'],
@@ -85,7 +100,9 @@ export type Pack = ScenarioContent['packs'][number];
 export function parseScenarioContent(raw: unknown): ScenarioContent {
   const result = scenarioContentSchema.safeParse(raw);
   if (!result.success) {
-    throw new Error(`Invalid scenario content:\n${z.prettifyError(result.error)}`);
+    throw new Error(
+      `Invalid scenario content:\n${z.prettifyError(result.error)}`,
+    );
   }
   return result.data;
 }
@@ -95,7 +112,9 @@ export function loadScenarioContent(filePath: string): ScenarioContent {
   try {
     raw = JSON.parse(readFileSync(filePath, 'utf8'));
   } catch (error) {
-    throw new Error(`Cannot read scenario content from ${filePath}`, { cause: error });
+    throw new Error(`Cannot read scenario content from ${filePath}`, {
+      cause: error,
+    });
   }
   return parseScenarioContent(raw);
 }
@@ -103,6 +122,8 @@ export function loadScenarioContent(filePath: string): ScenarioContent {
 // src/scenarios and dist/scenarios sit at the same depth, so this resolves to <repo>/content
 // in development, tests and the built app. CONTENT_DIR overrides it for deployments.
 export function scenarioContentPath(): string {
-  const contentDir = process.env.CONTENT_DIR ?? resolve(import.meta.dirname, '../../../../content');
+  const contentDir =
+    process.env.CONTENT_DIR ??
+    resolve(import.meta.dirname, '../../../../content');
   return join(contentDir, 'scenarios.json');
 }
