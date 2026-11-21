@@ -6,7 +6,12 @@ import { eq, inArray } from 'drizzle-orm';
 import request from 'supertest';
 import { App } from 'supertest/types.js';
 import type { Database } from '../src/database/database.js';
-import { aiSpend, reviewItems } from '../src/database/schema.js';
+import {
+  aiReports,
+  aiSpend,
+  phrases,
+  reviewItems,
+} from '../src/database/schema.js';
 import { completeLesson, createApp, registerDevice } from './support/app.js';
 
 // Security controls from the red-team catalogue (docs/08-guvenlik.md). Each negative case first
@@ -257,6 +262,45 @@ describe('Security controls (e2e)', () => {
       .post(`/review-items/${transfer.id}/hint`)
       .set(owner.auth)
       .expect(200);
+  });
+
+  it('refuses, in the database itself, rows that tie one user to another user’s data (AZ-02)', async () => {
+    const owner = await registerDevice(app);
+    const stranger = await registerDevice(app);
+    const lessonId = await completeLesson(app, owner);
+    const [phrase] = await db
+      .select({ id: phrases.id })
+      .from(phrases)
+      .where(eq(phrases.userId, owner.userId));
+
+    // The same insert works for the owner, so only the user differs below.
+    const [own] = await db
+      .insert(reviewItems)
+      .values({
+        userId: owner.userId,
+        phraseId: phrase.id,
+        kind: 'review',
+        dueAt: new Date(),
+      })
+      .returning({ id: reviewItems.id });
+    await db.delete(reviewItems).where(eq(reviewItems.id, own.id));
+
+    await expect(
+      db.insert(reviewItems).values({
+        userId: stranger.userId,
+        phraseId: phrase.id,
+        kind: 'review',
+        dueAt: new Date(),
+      }),
+    ).rejects.toThrow();
+    await expect(
+      db.insert(aiReports).values({
+        userId: stranger.userId,
+        lessonId,
+        target: 'correction',
+        reason: 'wrong',
+      }),
+    ).rejects.toThrow();
   });
 
   it('refuses request bodies over the size limit before parsing them (INP-04)', async () => {

@@ -1,0 +1,309 @@
+{
+  "type": "diff",
+  "version": "10",
+  "dialect": "postgres",
+  "id": "edc72cc1-3f81-44e6-8254-541cd64ff248",
+  "prevIds": [
+    "6b4ba095-ed70-478f-8030-4f18e322524b"
+  ],
+  "footprints": [
+    {
+      "statementType": "add_unique",
+      "statementTarget": [
+        "table",
+        "public",
+        "lessons"
+      ],
+      "writes": [
+        "s|uq|public.lessons.lessons_id_user_unique",
+        "n|uq|public.lessons.lessons_id_user_unique",
+        "e|uq|public.lessons.lessons_id_user_unique",
+        "n|con|public.lessons.lessons_id_user_unique",
+        "n|rel|public.lessons_id_user_unique"
+      ],
+      "reads": [
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.lessons.id",
+        "n|col|public.lessons.user_id"
+      ]
+    },
+    {
+      "statementType": "add_unique",
+      "statementTarget": [
+        "table",
+        "public",
+        "phrases"
+      ],
+      "writes": [
+        "s|uq|public.phrases.phrases_id_user_unique",
+        "n|uq|public.phrases.phrases_id_user_unique",
+        "e|uq|public.phrases.phrases_id_user_unique",
+        "n|con|public.phrases.phrases_id_user_unique",
+        "n|rel|public.phrases_id_user_unique"
+      ],
+      "reads": [
+        "n|tbl|public.phrases",
+        "n|sch|public",
+        "n|col|public.phrases.id",
+        "n|col|public.phrases.user_id"
+      ]
+    },
+    {
+      "statementType": "add_unique",
+      "statementTarget": [
+        "table",
+        "public",
+        "turns"
+      ],
+      "writes": [
+        "s|uq|public.turns.turns_id_lesson_unique",
+        "n|uq|public.turns.turns_id_lesson_unique",
+        "e|uq|public.turns.turns_id_lesson_unique",
+        "n|con|public.turns.turns_id_lesson_unique",
+        "n|rel|public.turns_id_lesson_unique"
+      ],
+      "reads": [
+        "n|tbl|public.turns",
+        "n|sch|public",
+        "n|col|public.turns.id",
+        "n|col|public.turns.lesson_id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "ai_reports"
+      ],
+      "writes": [
+        "s|fk|public.ai_reports.ai_reports_lesson_same_user_fkey",
+        "n|fk|public.ai_reports.ai_reports_lesson_same_user_fkey",
+        "e|fk|public.ai_reports.ai_reports_lesson_same_user_fkey",
+        "n|con|public.ai_reports.ai_reports_lesson_same_user_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.ai_reports",
+        "n|sch|public",
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.ai_reports.lesson_id",
+        "n|col|public.ai_reports.user_id",
+        "n|col|public.lessons.id",
+        "n|col|public.lessons.user_id",
+        "e|uniqueness|public.lessons.id.user_id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "ai_reports"
+      ],
+      "writes": [
+        "s|fk|public.ai_reports.ai_reports_turn_same_lesson_fkey",
+        "n|fk|public.ai_reports.ai_reports_turn_same_lesson_fkey",
+        "e|fk|public.ai_reports.ai_reports_turn_same_lesson_fkey",
+        "n|con|public.ai_reports.ai_reports_turn_same_lesson_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.ai_reports",
+        "n|sch|public",
+        "n|tbl|public.turns",
+        "n|sch|public",
+        "n|col|public.ai_reports.turn_id",
+        "n|col|public.ai_reports.lesson_id",
+        "n|col|public.turns.id",
+        "n|col|public.turns.lesson_id",
+        "e|uniqueness|public.turns.id.lesson_id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "phrases"
+      ],
+      "writes": [
+        "s|fk|public.phrases.phrases_lesson_same_user_fkey",
+        "n|fk|public.phrases.phrases_lesson_same_user_fkey",
+        "e|fk|public.phrases.phrases_lesson_same_user_fkey",
+        "n|con|public.phrases.phrases_lesson_same_user_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.phrases",
+        "n|sch|public",
+        "n|tbl|public.lessons",
+        "n|sch|public",
+        "n|col|public.phrases.lesson_id",
+        "n|col|public.phrases.user_id",
+        "n|col|public.lessons.id",
+        "n|col|public.lessons.user_id",
+        "e|uniqueness|public.lessons.id.user_id"
+      ]
+    },
+    {
+      "statementType": "create_fk",
+      "statementTarget": [
+        "table",
+        "public",
+        "review_items"
+      ],
+      "writes": [
+        "s|fk|public.review_items.review_items_phrase_same_user_fkey",
+        "n|fk|public.review_items.review_items_phrase_same_user_fkey",
+        "e|fk|public.review_items.review_items_phrase_same_user_fkey",
+        "n|con|public.review_items.review_items_phrase_same_user_fkey"
+      ],
+      "reads": [
+        "n|tbl|public.review_items",
+        "n|sch|public",
+        "n|tbl|public.phrases",
+        "n|sch|public",
+        "n|col|public.review_items.phrase_id",
+        "n|col|public.review_items.user_id",
+        "n|col|public.phrases.id",
+        "n|col|public.phrases.user_id",
+        "e|uniqueness|public.phrases.id.user_id"
+      ]
+    }
+  ],
+  "deltas": [
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "ai_reports",
+        "name": "ai_reports_lesson_same_user_fkey",
+        "nameExplicit": true,
+        "columns": [
+          "lesson_id",
+          "user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "lessons",
+        "columnsTo": [
+          "id",
+          "user_id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "ai_reports",
+        "name": "ai_reports_turn_same_lesson_fkey",
+        "nameExplicit": true,
+        "columns": [
+          "turn_id",
+          "lesson_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "turns",
+        "columnsTo": [
+          "id",
+          "lesson_id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "phrases",
+        "name": "phrases_lesson_same_user_fkey",
+        "nameExplicit": true,
+        "columns": [
+          "lesson_id",
+          "user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "lessons",
+        "columnsTo": [
+          "id",
+          "user_id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "review_items",
+        "name": "review_items_phrase_same_user_fkey",
+        "nameExplicit": true,
+        "columns": [
+          "phrase_id",
+          "user_id"
+        ],
+        "schemaTo": "public",
+        "tableTo": "phrases",
+        "columnsTo": [
+          "id",
+          "user_id"
+        ],
+        "onUpdate": "NO ACTION",
+        "onDelete": "CASCADE",
+        "entityType": "fks"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "lessons",
+        "name": "lessons_id_user_unique",
+        "nameExplicit": true,
+        "columns": [
+          "id",
+          "user_id"
+        ],
+        "nullsNotDistinct": false,
+        "entityType": "uniques"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "phrases",
+        "name": "phrases_id_user_unique",
+        "nameExplicit": true,
+        "columns": [
+          "id",
+          "user_id"
+        ],
+        "nullsNotDistinct": false,
+        "entityType": "uniques"
+      }
+    },
+    {
+      "op": "create",
+      "row": {
+        "schema": "public",
+        "table": "turns",
+        "name": "turns_id_lesson_unique",
+        "nameExplicit": true,
+        "columns": [
+          "id",
+          "lesson_id"
+        ],
+        "nullsNotDistinct": false,
+        "entityType": "uniques"
+      }
+    }
+  ]
+}

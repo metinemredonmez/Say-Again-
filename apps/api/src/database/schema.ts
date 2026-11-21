@@ -4,6 +4,7 @@ import {
   boolean,
   check,
   date,
+  foreignKey,
   index,
   integer,
   jsonb,
@@ -19,6 +20,10 @@ import {
 // The database schema. drizzle-kit generates the migrations in apps/api/drizzle from this file.
 // Audio is never stored: only text transcripts (docs/06-yayin-ve-hukuk.md). Deleting a user
 // deletes everything below it (cascade), and refresh tokens explicitly.
+//
+// AZ-02: a second barrier under the queries. A row that names both a user and a parent row
+// references the parent through (id, user_id), so the database itself refuses to attach one
+// user's row to another user's lesson, phrase or turn.
 
 const at = (name: string) =>
   timestamp(name, { withTimezone: true, mode: 'date' });
@@ -150,6 +155,7 @@ export const lessons = pgTable(
       ),
     check('lessons_state_check', inList('state', LESSON_STATES)),
     check('lessons_difficulty_check', inList('difficulty', DIFFICULTIES)),
+    unique('lessons_id_user_unique').on(t.id, t.userId),
   ],
 );
 
@@ -171,6 +177,7 @@ export const turns = pgTable(
   },
   (t) => [
     unique('turns_lesson_position_unique').on(t.lessonId, t.position),
+    unique('turns_id_lesson_unique').on(t.id, t.lessonId),
     check('turns_speaker_check', inList('speaker', SPEAKERS)),
     check(
       'turns_coach_move_check',
@@ -220,7 +227,15 @@ export const phrases = pgTable(
     text: text('text').notNull(),
     createdAt: at('created_at').notNull().defaultNow(),
   },
-  (t) => [index('phrases_user_idx').on(t.userId, t.createdAt.desc())],
+  (t) => [
+    index('phrases_user_idx').on(t.userId, t.createdAt.desc()),
+    unique('phrases_id_user_unique').on(t.id, t.userId),
+    foreignKey({
+      name: 'phrases_lesson_same_user_fkey',
+      columns: [t.lessonId, t.userId],
+      foreignColumns: [lessons.id, lessons.userId],
+    }).onDelete('cascade'),
+  ],
 );
 
 // Review queue (days 1, 3, 7) and the transfer task (day 3).
@@ -250,6 +265,11 @@ export const reviewItems = pgTable(
     index('review_items_due_idx')
       .on(t.userId, t.dueAt)
       .where(sql`${t.doneAt} is null`),
+    foreignKey({
+      name: 'review_items_phrase_same_user_fkey',
+      columns: [t.phraseId, t.userId],
+      foreignColumns: [phrases.id, phrases.userId],
+    }).onDelete('cascade'),
     check('review_items_kind_check', inList('kind', REVIEW_KINDS)),
     check(
       'review_items_outcome_check',
@@ -319,6 +339,17 @@ export const aiReports = pgTable(
   },
   (t) => [
     index('ai_reports_created_idx').on(t.createdAt),
+    foreignKey({
+      name: 'ai_reports_lesson_same_user_fkey',
+      columns: [t.lessonId, t.userId],
+      foreignColumns: [lessons.id, lessons.userId],
+    }).onDelete('cascade'),
+    // A reported coach line belongs to the reported lesson (no check when turn_id is null).
+    foreignKey({
+      name: 'ai_reports_turn_same_lesson_fkey',
+      columns: [t.turnId, t.lessonId],
+      foreignColumns: [turns.id, turns.lessonId],
+    }).onDelete('cascade'),
     check('ai_reports_target_check', inList('target', REPORT_TARGETS)),
     check('ai_reports_reason_check', inList('reason', REPORT_REASONS)),
   ],
