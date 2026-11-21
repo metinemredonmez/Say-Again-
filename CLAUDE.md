@@ -50,6 +50,7 @@ npm install            # npm 10'da "edgesOut" hatası verirse: npx npm@latest in
 npm run start:dev      # http://localhost:3000
 npm test               # birim testleri (Vitest)
 npm run test:e2e       # uçtan uca testler
+npm run eval           # AI kalite testleri (sahte AI); --live ile gerçek modeller, ücretli
 npm run lint
 npm run build
 npm run db:generate    # şema değişince göç üret

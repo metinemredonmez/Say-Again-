@@ -1,0 +1,27 @@
+{
+  "version": 1,
+  "status": "draft: synthetic answers written for the runner; replace with real answers from your own practice",
+  "note": "Test 5 (follow-up) and test 6 (level fit). One learner answer to each scenario's opening, in the English a Turkish B1 speaker might use. The coach's follow-up must build on it.",
+  "items": [
+    { "id": "f01", "scenarioId": "pro-interview-01", "answer": "I am a backend developer at a fintech company. I work with Java and Postgres since four years." },
+    { "id": "f02", "scenarioId": "pro-interview-02", "answer": "Last month we moved our payment service to Kubernetes. It was hard because we had many old scripts." },
+    { "id": "f03", "scenarioId": "pro-interview-03", "answer": "I decided to use a message queue between the order service and the invoice service, because the invoice part was too slow." },
+    { "id": "f04", "scenarioId": "pro-interview-04", "answer": "How big is the team, and how do you do code reviews?" },
+    { "id": "f05", "scenarioId": "pro-meeting-01", "answer": "Yesterday I fixed the login bug. Today I am working on the export page. The test server is down, this is blocking me." },
+    { "id": "f06", "scenarioId": "pro-meeting-02", "answer": "We found a problem with the database migration on Thursday, so we stopped the release. We need two more days." },
+    { "id": "f07", "scenarioId": "pro-meeting-03", "answer": "I am not sure. Rewriting is risky. Maybe we can change only the parser part first and keep the rest." },
+    { "id": "f08", "scenarioId": "pro-meeting-04", "answer": "Yes, I can do it, but I need the sales numbers from the finance team first." },
+    { "id": "f09", "scenarioId": "pro-daily-01", "answer": "Hello, I have a booking for three nights from the tenth. I want to change it to the twelfth." },
+    { "id": "f10", "scenarioId": "pro-daily-02", "answer": "Yes, I would like the chicken soup and a salad, please. No onion in the salad." },
+    { "id": "f11", "scenarioId": "pro-daily-03", "answer": "I am here for a software conference in Berlin. It is a business trip." },
+    { "id": "f12", "scenarioId": "pro-daily-04", "answer": "It was great, thanks. I went to the seaside with my family and we ate a lot of fish." },
+    { "id": "f13", "scenarioId": "seller-customer-01", "answer": "I am so sorry for the delay. I checked your order, it was shipped on Monday with USPS." },
+    { "id": "f14", "scenarioId": "seller-customer-02", "answer": "I understand. Can you tell me what was different from the photos? Then I can help you with the return." },
+    { "id": "f15", "scenarioId": "seller-customer-03", "answer": "Yes, of course. We can make it in any size. Which size do you need?" },
+    { "id": "f16", "scenarioId": "seller-customer-04", "answer": "I am really sorry about the blurry print and the late answer. We had a problem with our printer last week." },
+    { "id": "f17", "scenarioId": "seller-supplier-01", "answer": "Yes, now it takes six days for you to print our orders. Our customers want faster delivery." },
+    { "id": "f18", "scenarioId": "seller-supplier-02", "answer": "Sure, the tracking number is 9400 1118 9922 3344 5566 77. The box arrived broken." },
+    { "id": "f19", "scenarioId": "seller-product-01", "answer": "Our best seller is a world map wall decal. It is easy to put on the wall and it does not damage the paint." },
+    { "id": "f20", "scenarioId": "seller-product-02", "answer": "For 200 units I can give you eight dollars per unit. Normally it is ten dollars." }
+  ]
+}

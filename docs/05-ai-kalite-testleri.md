@@ -26,6 +26,22 @@ Eşikler ilk öneridir; ilk ölçümden sonra ayarlanır.
 - Hatalı cümleler Türkçe konuşanların gerçek hatalarından seçilmeli: önce kendi provalarından, sonra
   pilot kullanıcılarının dökümlerinden (izinle).
 
+## Çalıştırma
+
+```bash
+cd apps/api && npm run eval -- --live
+```
+
+Çalıştırıcı `apps/api/src/evals` içinde. Ayrıntı, durumlar ve anahtar biçimi: `evals/README.md`.
+
+- **Otomatik ölçülenler:** 1, 2, 4, 6, 8, 9 ve 10.
+- **Kısmen otomatik olanlar:**
+  - Test 3: sayı ve uzunluk eklemesini sunucu denetimi yakalar; anlam düzeyindeki uydurmayı bir kişi
+    okur.
+  - Test 5: cevapla ortak kelimesi olmayan takip soruları incelemeye düşer.
+- **Ses setini bekleyen:** test 7.
+- **Test 9'un eksiği:** döküm süresi ses seti gelince eklenecek.
+
 ## Ne zaman çalışır
 
 - İstem (`prompts/`) ya da model değiştiğinde

@@ -21,6 +21,15 @@ const csv = z
 const count = (fallback: number) =>
   z.coerce.number().int().min(0).max(100_000).default(fallback);
 
+// Model defaults, shared with the quality evals (src/evals).
+export const AI_DEFAULTS = {
+  COACH_MODEL: 'claude-haiku-5-5',
+  EVALUATOR_MODEL: 'claude-opus-5-5',
+  STT_MODEL: 'gpt-transcribe',
+  TTS_MODEL: 'gpt-4o-mini-tts',
+  TTS_VOICE: 'marin',
+} as const;
+
 // The secret the test configs use (vitest.config*.ts). It is public, so production refuses it.
 const TEST_JWT_SECRET = 'test-only-jwt-secret-of-at-least-32-bytes';
 
@@ -78,11 +87,11 @@ export const envSchema = z
     AI_PROVIDER: z.enum(['mock', 'live']).default('mock'),
     ANTHROPIC_API_KEY: optionalText,
     OPENAI_API_KEY: optionalText,
-    COACH_MODEL: z.string().default('claude-haiku-5-5'),
-    EVALUATOR_MODEL: z.string().default('claude-opus-5-5'),
-    STT_MODEL: z.string().default('gpt-transcribe'),
-    TTS_MODEL: z.string().default('gpt-4o-mini-tts'),
-    TTS_VOICE: z.string().default('marin'),
+    COACH_MODEL: z.string().default(AI_DEFAULTS.COACH_MODEL),
+    EVALUATOR_MODEL: z.string().default(AI_DEFAULTS.EVALUATOR_MODEL),
+    STT_MODEL: z.string().default(AI_DEFAULTS.STT_MODEL),
+    TTS_MODEL: z.string().default(AI_DEFAULTS.TTS_MODEL),
+    TTS_VOICE: z.string().default(AI_DEFAULTS.TTS_VOICE),
 
     // Quotas (product rules): three free lessons, then 20 a month with a subscription. The daily
     // caps bound AI spend from abandoned lessons and from throwaway anonymous accounts (RES-01).

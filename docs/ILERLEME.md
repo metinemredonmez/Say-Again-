@@ -4,6 +4,10 @@ Her çalışma oturumunun sonunda tarihli tek satır ekle: ne bitti, sırada ne 
 
 ## 2026-11-21
 
+- AI kalite testlerinin çalıştırıcısı yazıldı (`npm run eval`, `--live` ile gerçek modeller). On testi
+  `evals/golden` anahtarlarına göre ölçüyor, değerlendirici derslerdeki yolun aynısından geçiyor.
+  Takip sorusu (20) ve rolde kalma (15) için taslak setler eklendi. Testler: 63 birim, 46 e2e.
+  Sırada: gerçek anahtarlarla ilk koşu, eğitmen onaylı 50+50 cümle; admin ve mobil şablonları.
 - API ve AI katmanı red-team kataloğuna göre denetlendi (`docs/08-guvenlik.md`). Bulunan altı açık
   düzeltildi: silmeye dayanıklı AI harcama defteri, fiyatsız modelde açılmama, loglarda döküm
   sızıntısı, zayıf sır, şifresiz veritabanı. Eklenenler: güvenlik olayları ve istek kimliği, `at+jwt`,

@@ -54,6 +54,7 @@ Kapı tutmazsa: tekrarı sadeleştir (yalnızca 3. gün).
 - [ ] 20 senaryonun tamamı iki zorlukta denenir
 - [ ] Karşılama ekranı: seviye, paket, hedef
 - [ ] AI kalite testleri (`docs/05-ai-kalite-testleri.md`); cevap anahtarını bir İngilizce eğitmeni onaylar
+      — çalıştırıcı hazır (`npm run eval`); gerçek anahtarlarla koşu, 50+50 cümlelik set ve ses seti yok
 - [x] "Bu düzeltme yanlış" bildirimi (API: `POST /reports`)
 - [ ] Admin paneli (`apps/admin`, Next.js): admin girişi ve yetki (AUT, SES, AZ), bildirimler, ders
       maliyeti, elde tutma ve transfer sonuçları

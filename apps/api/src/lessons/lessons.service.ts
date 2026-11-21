@@ -24,7 +24,8 @@ import {
   type TextToSpeech,
   type TranscriptLine,
 } from '../ai/ai.types.js';
-import { checkCorrection, contentWords } from '../ai/correction-guard.js';
+import { contentWords } from '../ai/correction-guard.js';
+import { evaluateChecked } from '../ai/evaluate-checked.js';
 import { ApiError } from '../common/api-error.js';
 import type { AnswerInput } from '../common/audio-upload.js';
 import {
@@ -677,23 +678,19 @@ export class LessonsService {
       speaker: t.speaker,
       text: t.text,
     }));
-    let problems: string[] | undefined;
-    for (let attempt = 0; attempt < 2; attempt += 1) {
-      const { draft, usage } = await this.evaluator.evaluate({
-        scenario,
-        transcript,
-        problems,
-      });
-      await this.addUsage(this.db, lesson, 'evaluator', usage);
-      problems = checkCorrection(draft, learnerLines);
-      if (problems.length === 0) {
-        return draft;
-      }
+    const result = await evaluateChecked(
+      this.evaluator,
+      { scenario, transcript },
+      learnerLines,
+      ({ usage }) => this.addUsage(this.db, lesson, 'evaluator', usage),
+    );
+    if (result.problems.length > 0) {
       this.logger.warn(
-        `Correction for lesson ${lesson.id} failed checks (attempt ${attempt + 1}): ${problems.length} problem(s)`,
+        `Correction for lesson ${lesson.id} failed checks ${result.attempts} times: ${result.problems.length} problem(s)`,
       );
+      throw new AiOutputError('Correction failed the server checks twice');
     }
-    throw new AiOutputError('Correction failed the server checks twice');
+    return result.draft;
   }
 
   private async speak(

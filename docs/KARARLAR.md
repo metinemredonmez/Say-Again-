@@ -5,6 +5,11 @@ seçenek.
 
 ## 2026-11-21
 
+- **Kalite testleri API'nin içinde (`apps/api/src/evals`), derslerin değerlendirme yoluyla.**
+  Değerlendirici, sunucu denetimi ve tek yeniden deneme ortak bir fonksiyonda (`evaluateChecked`).
+  Böylece testler öğrencinin gördüğünü ölçer. Otomatik denetimin karar veremediği örnekler
+  "İNCELEME" olur; bunlar geçti sayılmaz, kaldı da sayılmaz. Vazgeçilen: ayrı bir değerlendirme
+  aracı ya da modelle not verme (LLM-as-judge). Bunun yerine eğitmenin `alsoAccept` listesi büyür.
 - **Red-team kataloğuna göre tam denetim (`docs/08-guvenlik.md`).** P0'lar önce ele alındı. Sonuç
   dosyası `docs/guvenlik/sonuclar-2026-11-21.yaml`: 35 geçti, 38 gerekçeyle uygulanmaz, 1 risk
   kabulü, 35 doğrulanacak. AI harcama açıkları kataloğa AI-03 olarak eklendi. P0 yayın kapısı ENGELLİ. Açık P0'ların hepsi admin paneline ya da

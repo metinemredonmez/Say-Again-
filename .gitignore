@@ -28,3 +28,6 @@ db/data/
 # Local PGlite data (DATABASE_URL=pglite:./.data/pglite)
 .data/
 sbom.cdx.json
+
+# AI quality eval reports (npm run eval)
+evals/results/
