@@ -34,8 +34,18 @@ Kaynaklar:
   seçtiğin sağlayıcının güncel şartlarından doğrula ve gizlilik politikana yaz.
 - **Sağlayıcıların şu anki şartları (2026-11-20'de bakıldı).** OpenAI API verisini varsayılan olarak
   eğitimde kullanmıyor; döküm ucu veri saklamıyor, seslendirme ucu kötüye kullanım denetimi için 30
-  gün saklıyor (https://developers.openai.com/api/docs/guides/your-data). Anthropic'in şartları da
-  gizlilik politikasına yazılmadan önce doğrulanmalı.
+  gün saklıyor (https://developers.openai.com/api/docs/guides/your-data).
+- **Anthropic'in şartları (2026-11-21'de bakıldı).**
+  - API verisi varsayılan olarak eğitimde kullanılmıyor. İstisna, açıkça gönderilen geri bildirim
+    (https://privacy.claude.com/en/articles/7996868-is-my-data-used-for-model-training; ticari
+    şartlar, Bölüm B: https://www.anthropic.com/legal/commercial-terms).
+  - Girdi ve çıktılar 30 gün içinde otomatik siliniyor.
+  - Kullanım politikası ihlali diye işaretlenen içerik 2 yıla kadar, güvenlik sınıflandırma puanları
+    7 yıla kadar saklanıyor
+    (https://privacy.claude.com/en/articles/7996866-how-long-do-you-store-my-organization-s-data).
+- **KVKK yurt dışı aktarım (madde 9, 2024 değişikliği).** Güncel dayanaklar ve standart sözleşme
+  bildirim süresi resmî metinden doğrulanmadı: kvkk.gov.tr sertifika hatası verdi. Gizlilik
+  politikası yazılmadan önce bir hukukçuyla netleşmeli.
 - **Seslendirme yapay zekâ ile.** OpenAI kullanım politikası, sesin yapay zekâ ile üretildiğini
   kullanıcıya açıkça söylemeyi istiyor: Prova ekranında ve gizlilik politikasında belirt.
 - **Yaş sınırı.** İlk sürüm yalnızca 18 yaş üstü.

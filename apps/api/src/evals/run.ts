@@ -723,7 +723,15 @@ function parseArgs(argv: string[]): EvalOptions {
 
 async function main() {
   const options = parseArgs(process.argv.slice(2));
-  const report = await runEvals(options);
+  let report: EvalReport;
+  try {
+    report = await runEvals(options);
+  } catch (error) {
+    // A setup problem (missing key, unpriced model): one clear line, no stack trace.
+    console.error(`Kalite testleri başlamadı: ${(error as Error).message}`);
+    process.exitCode = 1;
+    return;
+  }
   console.log(formatReport(report));
   // A release does not go out while a measured test is below its threshold.
   if (options.live && report.verdict === 'fail') {
